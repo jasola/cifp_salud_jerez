@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FP Dual en Emergencias Sanitarias — CIFP Salud Jerez · Grupo 8</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--red:#C2002F;--red-dark:#8B0021;--rf:rgba(194,0,47,0.08);--w:#FFFFFF;--ow:#F8F6F3;--lg:#F0ECEA;--mg:#D8D4D2;--td:#1A1A2E;--tm:#3D3A4A;--tl:#7A7585;--nh:72px;--sh:48px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{width:100%;height:100%;font-family:'Barlow',sans-serif;background:var(--ow);color:var(--td);overflow:hidden;}
+*{scrollbar-width:none;}*::-webkit-scrollbar{display:none;}
+#navbar{position:fixed;top:0;left:0;right:0;height:var(--nh);background:var(--w);border-bottom:3px solid var(--red);display:flex;align-items:center;z-index:1000;box-shadow:0 2px 20px rgba(194,0,47,0.12);}
+#logo-wrap{display:flex;align-items:center;padding:0 24px;height:100%;cursor:pointer;flex-shrink:0;background:var(--w);}
+#logo-wrap img{height:46px;width:auto;}
+#nav-div{width:1px;height:36px;background:var(--mg);flex-shrink:0;}
+#nav-items{display:flex;align-items:center;flex:1;height:100%;padding:0 12px;}
+.ni{display:flex;align-items:center;height:100%;padding:0 16px;cursor:pointer;position:relative;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--tm);transition:color .2s;white-space:nowrap;}
+.ni::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--red);transform:scaleX(0);transition:transform .25s ease;}
+.ni:hover{color:var(--red);}.ni:hover::after,.ni.active::after{transform:scaleX(1);}.ni.active{color:var(--red);}
+#subnav{position:fixed;top:var(--nh);left:0;right:0;height:var(--sh);background:var(--red);display:flex;align-items:center;z-index:999;padding:0 200px 0 28px;box-shadow:0 3px 16px rgba(194,0,47,.25);transition:opacity .25s,transform .25s;}
+#subnav.hidden{opacity:0;pointer-events:none;transform:translateY(-8px);}
+.si{padding:0 20px;height:100%;display:flex;align-items:center;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:rgba(255,255,255,.75);position:relative;transition:color .2s;white-space:nowrap;}
+.si::after{content:'';position:absolute;bottom:0;left:12px;right:12px;height:2px;background:var(--w);transform:scaleX(0);transition:transform .22s ease;}
+.si:hover,.si.active{color:var(--w);}.si:hover::after,.si.active::after{transform:scaleX(1);}
+#exp-badge{position:fixed;top:var(--nh);right:0;height:var(--sh);background:var(--red-dark);display:flex;align-items:center;padding:0 22px;z-index:1001;transition:opacity .25s;}
+#exp-badge.hidden{opacity:0;pointer-events:none;}
+#exp-name{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:var(--w);letter-spacing:.03em;}
+#ca{position:fixed;top:var(--nh);left:0;right:0;bottom:0;overflow:hidden;}
+#ca.ws{top:calc(var(--nh) + var(--sh));}
+.sc{position:absolute;inset:0;opacity:0;pointer-events:none;transition:opacity .3s ease;overflow-y:auto;}
+.sc.active{opacity:1;pointer-events:all;}
+/* Restore scrollbar only for sc */
+.sc{scrollbar-width:thin;scrollbar-color:var(--mg) transparent;}
+.sc::-webkit-scrollbar{display:block;width:6px;}
+.sc::-webkit-scrollbar-track{background:transparent;}
+.sc::-webkit-scrollbar-thumb{background:var(--mg);border-radius:3px;}
+.sc::-webkit-scrollbar-thumb:hover{background:var(--tl);}
+/* Permitir scroll: min-height en layouts, quitar overflow:hidden en columnas de contenido */
+.hl,.ctx,.acng,.modg,.empg,.tutg,.motl,.actl,.dwg,.teg,.evg,.aeg,.pml,.concl{height:auto!important;min-height:100%;}
+.stw{height:auto!important;min-height:100%;}
+.ctxl,.ctxr,.modl,.modr,.empl,.tutl,.tutr,.motc,.actc,.dwl,.dwr,.tel,.ter,.evl,.evr,.ael,.aer,.pmc,.concll{overflow:visible!important;}
+/* COVER */
+.cov{width:100%;height:100%;position:relative;display:flex;align-items:center;overflow:hidden;}
+.cbg{position:absolute;inset:0;background-size:cover;background-position:center;z-index:0;}
+.cov-ol{position:absolute;inset:0;background:linear-gradient(105deg,rgba(248,246,243,.97) 0%,rgba(248,246,243,.90) 38%,rgba(248,246,243,.4) 65%,transparent 100%);z-index:1;}
+.cc{position:relative;z-index:2;padding:0 80px;max-width:680px;}
+.ctag{display:inline-block;background:var(--td);color:var(--w);font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:6px 16px;margin-bottom:22px;}
+.ctitle{font-family:'Barlow Condensed',sans-serif;font-size:72px;font-weight:800;line-height:.95;color:var(--red);text-transform:uppercase;margin-bottom:18px;}
+.ctitle span{color:var(--red);}
+.csub{font-size:20px;font-weight:300;color:var(--tm);line-height:1.5;margin-bottom:28px;max-width:440px;}
+.cexp{display:flex;align-items:center;gap:14px;}
+.cdot{width:10px;height:10px;background:var(--red);border-radius:50%;}
+.cname{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;letter-spacing:.05em;color:var(--tm);text-transform:uppercase;}
+/* UTILS */
+.pt{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:6px;}
+.ptw{color:rgba(255,255,255,.65);}
+.ph{font-family:'Barlow Condensed',sans-serif;font-size:40px;font-weight:800;line-height:1;color:var(--red);text-transform:uppercase;margin-bottom:14px;}
+.phw{color:var(--w);}
+.tag{display:inline-block;background:var(--rf);color:var(--red);border:1px solid rgba(194,0,47,.25);font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 12px;margin-right:6px;margin-bottom:6px;}
+.dt{width:100%;border-collapse:collapse;}
+.dt th{background:var(--red);color:var(--w);font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:9px 12px;text-align:left;}
+.dt td{padding:8px 12px;border-bottom:1px solid var(--mg);color:var(--tm);font-size:14px;line-height:1.45;vertical-align:top;}
+.dt tr:nth-child(even) td{background:var(--lg);}
+.dt td strong{color:var(--td);font-weight:600;}
+.sc-card{background:var(--w);border-top:3px solid var(--red);padding:14px 16px;}
+.sc-n{font-family:'Barlow Condensed',sans-serif;font-size:44px;font-weight:800;color:var(--red);line-height:1;}
+.sc-l{font-size:13px;color:var(--tl);margin-top:3px;text-transform:uppercase;letter-spacing:.05em;font-weight:500;}
+.ib{background:var(--w);border-left:4px solid var(--red);padding:13px 16px;margin-bottom:10px;}
+.ib .il{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--red);margin-bottom:4px;}
+.ib .it{font-size:15px;color:var(--tm);line-height:1.55;}
+.bb{display:inline-flex;align-items:center;gap:4px;font-size:13px;font-weight:600;color:var(--tm);}
+.bd{width:10px;height:10px;border-radius:50%;flex-shrink:0;display:inline-block;}
+.bn2{background:#5B9BD5;}.bn3{background:#ED7D31;}.bn4{background:#C2002F;}
+/* HOME */
+#sh{background:var(--ow);}
+.hl{display:grid;grid-template-columns:1fr 1fr;min-height:100%;}
+.hll{padding:48px 60px 40px;display:flex;flex-direction:column;justify-content:center;background:var(--w);}
+.hlr{position:relative;overflow:hidden;}
+.hlr img{width:100%;height:100%;object-fit:cover;object-position:center top;}
+.hpill{display:inline-flex;align-items:center;gap:8px;background:var(--rf);border:1px solid rgba(194,0,47,.22);padding:8px 18px;margin-bottom:24px;width:fit-content;}
+.hpd{width:7px;height:7px;background:var(--red);border-radius:50%;animation:pd 2s infinite;}
+@keyframes pd{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.5);opacity:.6;}}
+.hpt{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--red);}
+.htitle{font-family:'Barlow Condensed',sans-serif;font-size:62px;font-weight:800;line-height:.92;text-transform:uppercase;color:var(--td);margin-bottom:10px;}
+.htitle span{color:var(--red);}
+.hsub{font-size:22px;font-weight:700;color:var(--tm);margin-bottom:18px;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:.03em;}
+.hdesc{font-size:16px;color:var(--tl);line-height:1.65;margin-bottom:24px;max-width:460px;}
+.hmeta{display:flex;flex-direction:column;gap:8px;margin-bottom:28px;}
+.hmi{display:flex;gap:12px;align-items:baseline;}
+.hmi strong{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--red);flex-shrink:0;min-width:130px;}
+.hmi span{color:var(--tm);font-size:15px;}
+.htl{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--tl);margin-bottom:10px;}
+.htc{display:flex;flex-wrap:wrap;gap:8px;}
+.hc{background:var(--lg);border:1px solid var(--mg);padding:7px 16px;font-size:15px;font-weight:600;color:var(--tm);font-family:'Barlow Condensed',sans-serif;letter-spacing:.04em;}
+/* CTX */
+.ctx{display:grid;grid-template-columns:360px 1fr;min-height:100%;}
+.ctxl{background:var(--red);padding:34px 30px;display:flex;flex-direction:column;color:var(--w);}
+.ctxr{padding:28px 34px;background:var(--ow);display:flex;flex-direction:column;}
+.csg{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;}
+.cs{background:rgba(255,255,255,.13);padding:12px 14px;border-top:2px solid rgba(255,255,255,.35);}
+.cs .n{font-family:'Barlow Condensed',sans-serif;font-size:36px;font-weight:800;color:var(--w);line-height:1;}
+.cs .l{font-size:13px;color:rgba(255,255,255,.75);text-transform:uppercase;letter-spacing:.07em;margin-top:3px;}
+.cdes{font-size:15px;color:rgba(255,255,255,.92);line-height:1.65;margin-bottom:16px;}
+.cnl{list-style:none;display:flex;flex-direction:column;gap:7px;margin-top:auto;}
+.cni{display:flex;align-items:center;gap:10px;font-size:14px;color:rgba(255,255,255,.88);font-weight:500;}
+.cni::before{content:'';width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.6);flex-shrink:0;}
+/* STUDENTS */
+.stw{width:100%;height:100%;display:flex;flex-direction:column;}
+.sttabs{display:flex;background:var(--red);flex-shrink:0;justify-content:flex-start;}
+.stt{padding:14px 28px;text-align:left;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.65);border-bottom:3px solid transparent;transition:color .2s,border-color .2s;}
+.stt.active{color:var(--w);border-bottom-color:var(--w);background:rgba(255,255,255,.08);}
+.stt:hover{color:var(--w);}
+.stcont{flex:1;position:relative;overflow:hidden;}
+.stp{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;opacity:0;pointer-events:none;transition:opacity .25s;}
+.stp.active{opacity:1;pointer-events:all;}
+.stis{position:relative;overflow:hidden;background:var(--ow);}
+.stis img{width:100%;height:100%;object-fit:contain;object-position:center;padding:20px;}
+.stis2{padding:36px 42px;display:flex;flex-direction:column;justify-content:center;background:var(--w);}
+/* ACNEAE */
+.acng{display:grid;grid-template-columns:1fr 1fr 1fr;height:100%;}
+.acnc{padding:26px;display:flex;flex-direction:column;align-items:center;overflow:hidden;}
+.acnc:nth-child(1){background:var(--w);}
+.acnc:nth-child(2){background:var(--ow);border-left:1px solid var(--mg);border-right:1px solid var(--mg);}
+.acnc:nth-child(3){background:var(--w);}
+.acniw{width:200px;height:200px;overflow:hidden;margin-bottom:14px;flex-shrink:0;}
+.acniw img{width:100%;height:100%;object-fit:contain;}
+.acnn{font-family:'Barlow Condensed',sans-serif;font-size:24px;font-weight:800;color:var(--red);text-transform:uppercase;margin-bottom:3px;}
+.acnco{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:600;color:var(--tm);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px;text-align:center;}
+.acnm{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--mg);font-size:14px;color:var(--tm);line-height:1.45;width:100%;}
+.acnm:last-child{border-bottom:none;}
+.acnm::before{content:'▸';color:var(--red);flex-shrink:0;margin-top:2px;}
+/* MODULO */
+.modg{display:grid;grid-template-columns:290px 1fr;height:100%;}
+.modl{background:var(--red);padding:28px 24px;display:flex;flex-direction:column;color:var(--w);overflow:hidden;}
+.modr{padding:22px 26px;overflow:hidden;display:flex;flex-direction:column;background:var(--ow);}
+.mfr{display:flex;border-bottom:1px solid rgba(255,255,255,.18);padding:7px 0;}
+.mfl{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.65);min-width:90px;flex-shrink:0;}
+.mfv{font-size:14px;color:var(--w);line-height:1.4;}
+.rat{width:100%;border-collapse:collapse;}
+.rat thead th{background:var(--red);color:var(--w);font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:8px 10px;text-align:left;}
+.rat tbody td{padding:7px 10px;border-bottom:1px solid var(--mg);vertical-align:top;line-height:1.4;color:var(--tm);font-size:13px;}
+.rat tbody tr:nth-child(even) td{background:var(--lg);}
+.rac{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:16px;color:var(--red);white-space:nowrap;}
+.rai{display:inline-block;background:var(--red);color:var(--w);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;margin-left:4px;}
+/* EMPRESA */
+.empg{display:grid;grid-template-columns:1fr 400px;height:100%;}
+.empl{padding:26px 30px;display:flex;flex-direction:column;overflow:hidden;background:var(--ow);}
+.empr{position:relative;overflow:hidden;}
+.empr img{width:100%;height:100%;object-fit:cover;}
+.ttech{width:100%;border-collapse:collapse;flex:1;}
+.ttech thead th{background:var(--red);color:var(--w);font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:8px 10px;text-align:left;}
+.ttech tbody td{padding:7px 10px;border-bottom:1px solid var(--mg);color:var(--tm);vertical-align:top;line-height:1.4;font-size:13px;}
+.ttech tbody tr:nth-child(even) td{background:var(--lg);}
+.ttech .tn{font-weight:600;color:var(--td);font-size:13px;}
+.ttech .tc{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;color:var(--red);}
+/* TUTOR */
+.tutg{display:grid;grid-template-columns:310px 1fr;height:100%;}
+.tutl{background:var(--red);padding:30px 24px;color:var(--w);display:flex;flex-direction:column;overflow:hidden;}
+.tutr{padding:26px 30px;display:flex;flex-direction:column;gap:9px;overflow:hidden;background:var(--ow);}
+.trc{display:flex;gap:13px;background:var(--w);padding:12px 15px;border-left:4px solid var(--red);}
+.trc.hi{background:var(--rf);}.trc .ti{font-size:20px;flex-shrink:0;margin-top:2px;}
+.trc .tt{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:var(--td);text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px;}
+.trc.hi .tt{color:var(--red);}
+.trc .tx{font-size:13px;color:var(--tm);line-height:1.45;}
+.tccg{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+.tcc{background:var(--lg);padding:10px 8px;border-top:3px solid var(--red);text-align:center;min-width:0;overflow:hidden;}
+.tcc .tn2{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;color:var(--red);line-height:1;}
+.tcc .tl{font-size:11px;color:var(--tl);text-transform:uppercase;letter-spacing:.04em;margin-top:3px;line-height:1.3;word-break:break-word;}
+/* MOTIVACION */
+.motl{display:grid;grid-template-columns:1fr 1fr;height:100%;}
+.moti{position:relative;overflow:hidden;}.moti img{width:100%;height:100%;object-fit:cover;}
+.motc{padding:34px 42px;display:flex;flex-direction:column;background:var(--w);overflow:hidden;}
+.nb{background:var(--rf);border-left:5px solid var(--red);padding:16px 20px;margin-bottom:18px;flex-shrink:0;}
+.nt{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin-bottom:5px;}
+.ntit{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;color:var(--td);line-height:1.2;margin-bottom:8px;}
+.ntx{font-size:15px;color:var(--tm);line-height:1.6;}
+.nsrc{font-size:13px;color:var(--tl);margin-top:6px;font-style:italic;}
+.mcx{display:flex;flex-direction:column;gap:8px;flex:1;}
+.mci{display:flex;gap:14px;align-items:center;background:var(--lg);padding:12px 16px;border-left:4px solid var(--mg);}
+.mci.hi{background:var(--rf);border-left-color:var(--red);}
+.mcc{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:var(--red);flex-shrink:0;min-width:48px;text-align:center;}
+.mctx{font-size:15px;color:var(--tm);line-height:1.5;}
+/* ACTIVIDADES */
+.actl{display:grid;grid-template-columns:1fr 1fr;height:100%;}
+.acti{position:relative;overflow:hidden;}.acti img{width:100%;height:100%;object-fit:cover;}
+.actc{padding:26px 34px;display:flex;flex-direction:column;overflow:hidden;background:var(--ow);gap:8px;}
+.ahb{background:var(--red);padding:12px 16px;display:flex;align-items:baseline;gap:13px;flex-shrink:0;}
+.ahc{font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:800;color:var(--w);line-height:1;}
+.aht{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;color:rgba(255,255,255,.9);text-transform:uppercase;letter-spacing:.04em;}
+.asc{background:var(--w);border-left:5px solid var(--red);padding:12px 15px;font-size:15px;color:var(--tm);line-height:1.55;font-style:italic;flex-shrink:0;}
+.asc strong{color:var(--td);font-style:normal;}
+.fr{display:flex;gap:12px;background:var(--w);padding:9px 13px;border-bottom:1px solid var(--mg);}
+.fn{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;color:var(--red);line-height:1;flex-shrink:0;width:22px;}
+.ftit{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--td);margin-bottom:3px;}
+.ftx{font-size:13px;color:var(--tm);line-height:1.4;}
+.fd{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;color:var(--red);margin-left:auto;flex-shrink:0;align-self:flex-start;padding-top:3px;}
+.rm{width:100%;border-collapse:collapse;}
+.rm th{background:var(--red);color:var(--w);font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:6px 8px;text-align:left;}
+.rm td{padding:6px 8px;border-bottom:1px solid var(--mg);color:var(--tm);vertical-align:top;line-height:1.35;font-size:13px;}
+.rm tr:nth-child(even) td{background:var(--lg);}
+/* DUAL */
+.dwg{display:grid;grid-template-columns:1fr 1fr;height:100%;}
+.dwl{background:var(--w);padding:30px 36px;display:flex;flex-direction:column;overflow:hidden;}
+.dwr{background:var(--ow);padding:30px 36px;display:flex;flex-direction:column;overflow:hidden;}
+.dr{display:flex;gap:15px;padding:11px 0;border-bottom:1px solid var(--mg);}
+.dr:last-child{border-bottom:none;}
+.dri{width:36px;height:36px;background:var(--rf);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.dri svg{width:18px;height:18px;fill:var(--red);}
+.drt{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;color:var(--td);text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px;}
+.drtx{font-size:14px;color:var(--tm);line-height:1.55;}
+.db{margin-bottom:13px;}
+.dbl{display:flex;justify-content:space-between;margin-bottom:5px;font-size:14px;color:var(--tm);}
+.dbl strong{font-weight:600;color:var(--td);}
+.dbt{height:12px;background:var(--mg);border-radius:2px;overflow:hidden;}
+.dbf{height:100%;background:var(--red);border-radius:2px;}
+.nb2{background:var(--rf);border:1px solid rgba(194,0,47,.2);padding:14px 16px;margin-bottom:14px;}
+.nb2 .nbt{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--red);margin-bottom:6px;}
+.nb2 .nbtx{font-size:14px;color:var(--tm);line-height:1.55;}
+/* TEMP */
+.teg{display:grid;grid-template-columns:1fr 1fr;height:100%;}
+.tel{background:var(--w);padding:24px 28px;display:flex;flex-direction:column;overflow:hidden;}
+.ter{background:var(--ow);padding:24px 28px;display:flex;flex-direction:column;overflow:hidden;}
+.st{width:100%;border-collapse:collapse;flex:1;}
+.st thead th{background:var(--red);color:var(--w);font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:8px 9px;text-align:left;}
+.st tbody td{padding:8px 9px;border-bottom:1px solid var(--mg);vertical-align:top;line-height:1.4;color:var(--tm);font-size:14px;}
+.st tbody tr:nth-child(even) td{background:var(--lg);}
+.st .stn{font-weight:700;color:var(--red);white-space:nowrap;font-size:15px;}
+.st .stc{font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--red);font-size:14px;}
+/* EVAL */
+.evg{display:grid;grid-template-columns:310px 1fr;height:100%;}
+.evl{background:var(--red);padding:28px 22px;color:var(--w);display:flex;flex-direction:column;overflow:hidden;}
+.evr{padding:24px 28px;display:flex;flex-direction:column;gap:10px;overflow:hidden;background:var(--ow);}
+.ebs{display:flex;gap:10px;flex:1;}
+.eb{flex:1;background:var(--w);border-top:4px solid var(--red);padding:14px 15px;}
+.ebw{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--red);margin-bottom:4px;}
+.ebt{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:var(--td);margin-bottom:3px;text-transform:uppercase;}
+.ebp{font-family:'Barlow Condensed',sans-serif;font-size:36px;font-weight:800;color:var(--red);line-height:1;}
+.ebis{margin-top:8px;display:flex;flex-direction:column;gap:5px;}
+.ebi{display:flex;gap:6px;font-size:13px;color:var(--tm);align-items:baseline;}
+.ebi::before{content:'▸';color:var(--red);flex-shrink:0;}
+.ebi.hi{color:var(--red);font-weight:600;}
+/* AUTOEVAL */
+.aeg{display:grid;grid-template-columns:1fr 1fr;height:100%;}
+.ael{background:var(--w);padding:24px 28px;display:flex;flex-direction:column;overflow:hidden;}
+.aer{background:var(--ow);padding:24px 28px;display:flex;flex-direction:column;overflow:hidden;}
+.aet{width:100%;border-collapse:collapse;flex:1;}
+.aet thead th{background:var(--red);color:var(--w);font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:8px 10px;text-align:left;}
+.aet tbody td{padding:8px 10px;border-bottom:1px solid var(--mg);color:var(--tm);line-height:1.4;vertical-align:top;font-size:14px;}
+.aet tbody tr:nth-child(even) td{background:var(--lg);}
+.coi{display:flex;gap:13px;align-items:flex-start;background:var(--w);padding:10px 13px;border-bottom:1px solid var(--mg);}
+.coi:last-child{border-bottom:none;}
+.con{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;color:var(--red);flex-shrink:0;width:22px;line-height:1;}
+.cot{font-size:14px;color:var(--tm);line-height:1.5;}
+/* PROF MOTIV */
+.pml{display:grid;grid-template-columns:1fr 1fr;height:100%;}
+.pmi{overflow:hidden;}.pmi img{width:100%;height:100%;object-fit:cover;}
+.pmc{padding:34px 44px;display:flex;flex-direction:column;background:var(--w);overflow:hidden;}
+.scard{padding:16px 20px;margin-bottom:12px;}
+.sm{background:var(--red);}.sc2{background:var(--ow);border:2px solid var(--mg);}
+.sty{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:5px;}
+.sm .sty{color:rgba(255,255,255,.65);}.sc2 .sty{color:var(--tl);}
+.stx2{font-family:'Barlow Condensed',sans-serif;font-size:24px;font-weight:800;line-height:1.15;}
+.sm .stx2{color:var(--w);}.sc2 .stx2{color:var(--td);}
+.pmpr{margin-top:auto;background:var(--lg);border-left:5px solid var(--red);padding:14px 18px;font-size:15px;color:var(--tm);line-height:1.65;}
+.pmpr strong{color:var(--td);}
+/* DESARROLLO */
+.desl{width:100%;height:100%;display:flex;flex-direction:column;background:var(--ow);}
+.desh{background:var(--red);padding:14px 36px;display:flex;align-items:center;gap:20px;flex-shrink:0;}
+.desht{font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:800;color:var(--w);text-transform:uppercase;letter-spacing:.03em;}
+.deshs{font-size:15px;color:rgba(255,255,255,.82);}
+.desiw{flex:1;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:20px 60px;background:var(--w);}
+.desiw img{max-width:100%;max-height:100%;object-fit:contain;}
+/* CONCLUSIONES */
+.concl{display:grid;grid-template-columns:1fr 400px;height:100%;}
+.concll{padding:30px 44px;display:flex;flex-direction:column;overflow:hidden;background:var(--w);}
+.conclr{position:relative;overflow:hidden;}
+.conclr img{width:100%;height:100%;object-fit:cover;}
+.ci{display:flex;gap:14px;padding:10px 0;border-bottom:1px solid var(--mg);}
+.ci:last-child{border-bottom:none;}
+.cb{width:22px;height:22px;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:3px;}
+.cb svg{width:12px;height:12px;fill:var(--w);}
+.ctx2{font-size:15px;color:var(--tm);line-height:1.6;}
+.ctx2 strong{color:var(--td);font-weight:600;}
+</style>
+</head>
+<body>
+<nav id="navbar">
+  <div id="logo-wrap" onclick="goHome()"><img src="images/Universidad_Nebrija_logo.png" alt="Universidad Nebrija"></div>
+  <div id="nav-div"></div>
+  <div id="nav-items">
+    <div class="ni" data-s="centro" onclick="openSection('centro')">El Centro</div>
+    <div class="ni" data-s="modulo" onclick="openSection('modulo')">Módulo &amp; Empresa</div>
+    <div class="ni" data-s="actividades" onclick="openSection('actividades')">Actividades</div>
+    <div class="ni" data-s="fpdual" onclick="openSection('fpdual')">FP Dual</div>
+    <div class="ni" data-s="evaluacion" onclick="openSection('evaluacion')">Evaluación</div>
+    <div class="ni" data-s="profesorado" onclick="openSection('profesorado')">Profesorado</div>
+    <div class="ni" data-s="conclusiones" onclick="openSection('conclusiones')">Conclusiones</div>
+  </div>
+</nav>
+<div id="subnav" class="hidden"></div>
+<div id="exp-badge" class="hidden"><span id="exp-name"></span></div>
+<div id="ca">
+
+<!-- HOME -->
+<div class="sc active" id="sh">
+  <div class="hl">
+    <div class="hll">
+      <div class="hpill"><div class="hpd"></div><span class="hpt">Diseño de propuestas didácticas en procesos sanitarios &nbsp;·&nbsp; Grupo 8 – Curso 25/26</span></div>
+      <div class="htitle">FP Dual en<br><span>Emergencias</span><br>Sanitarias</div>
+      <div class="hsub">Proyecto de implantación</div>
+      <p class="hdesc">Un modelo de formación compartida entre el <strong>CIFP Salud Jerez</strong> y la <strong>Base 061 EPES Jerez</strong> para formar a los técnicos en emergencias sanitarias del futuro.</p>
+      <div class="hmeta">
+        <div class="hmi"><strong>Centro de referencia</strong><span>CIFP Salud Jerez — Jerez de la Frontera, Cádiz</span></div>
+        <div class="hmi"><strong>Empresa</strong><span>Base 061 EPES Jerez</span></div>
+        <div class="hmi"><strong>Módulo</strong><span>0056 — Atención Sanitaria Especial en Situaciones de Emergencia</span></div>
+      </div>
+      <div><div class="htl">Componentes del equipo</div>
+      <div class="htc"><span class="hc">Miguel Alves</span><span class="hc">Belén Santiago</span><span class="hc">José Antonio Sola</span><span class="hc">Marta Mombiela</span><span class="hc">Carmen Cosano</span><span class="hc">Mª Ángeles Moreno</span></div></div>
+    </div>
+    <div class="hlr"><img src="images/portada.png" alt="Portada"></div>
+  </div>
+</div>
+
+<!-- CENTRO COVER -->
+<div class="sc" id="sc-centro-cov">
+  <div class="cov"><div class="cbg" style="background-image:url('images/centro.png')"></div><div class="cov-ol"></div>
+  <div class="cc"><div class="ctag">El Centro</div><div class="ctitle">CIFP<br><span>Salud</span><br>Jerez</div><div class="csub">Centro Integrado de Formación Profesional de referencia en Sanidad en la provincia de Cádiz</div><div class="cexp"><div class="cdot"></div><span class="cname">Miguel Alves</span></div></div></div>
+</div>
+
+<!-- CONTEXTUALIZACION -->
+<div class="sc" id="sc-ctx">
+  <div class="ctx">
+    <div class="ctxl">
+      <div class="pt ptw">El Centro</div>
+      <div class="ph phw" style="font-size:36px;margin-bottom:16px;">Contextualización</div>
+      <div class="csg"><div class="cs"><div class="n">215k</div><div class="l">Hab. Jerez</div></div><div class="cs"><div class="n">26</div><div class="l">Alumnos TES</div></div><div class="cs"><div class="n">+25%</div><div class="l">Tasa paro local</div></div><div class="cs"><div class="n">5</div><div class="l">Ciclos Sanidad</div></div></div>
+      <p class="cdes">El CIFP Salud Jerez se ubica en Jerez de la Frontera (Cádiz), quinta ciudad de Andalucía. La alta siniestralidad vial, el sector industrial y la red sanitaria provincial generan demanda sostenida de técnicos prehospitalarios. La FP es vía clave de empleabilidad en una ciudad con tasa de paro históricamente superior al 25%.</p>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.65);margin-bottom:10px;margin-top:auto;">Marco normativo del centro</div>
+      <ul class="cnl"><li class="cni">RD 1558/2005 — Centros integrados de FP</li><li class="cni">LO 3/2022 — Ordenación e integración de la FP</li><li class="cni">RD 659/2023 — Desarrollo Sistema de FP</li><li class="cni">Decreto 147/2025 — Ordenación FP Andalucía</li><li class="cni">Orden 26/09/2025 (BOJA nº 187 Complementario)</li></ul>
+    </div>
+    <div class="ctxr">
+      <div class="pt">Oferta formativa · Ciclos de Sanidad</div>
+      <div class="ph" style="font-size:28px;margin-bottom:14px;">CIFP Salud Jerez · Curso 25/26</div>
+      <table class="dt" style="margin-bottom:14px;flex-shrink:0;"><thead><tr><th>Nivel</th><th>Ciclo formativo</th><th>Horas</th><th>Alumnos</th></tr></thead><tbody>
+        <tr><td><strong>GM</strong></td><td>Técnico/a en Cuidados Auxiliares de Enfermería (TCAE)</td><td>2.000h</td><td>28</td></tr>
+        <tr><td><strong>GM</strong></td><td><strong>Técnico/a en Emergencias Sanitarias (TES)</strong></td><td>2.000h</td><td><strong>26</strong></td></tr>
+        <tr><td><strong>GS</strong></td><td>T.S. en Laboratorio Clínico y Biomédico</td><td>2.000h</td><td>25</td></tr>
+        <tr><td><strong>GS</strong></td><td>T.S. en Imagen para el Diagnóstico y Medicina Nuclear</td><td>2.000h</td><td>24</td></tr>
+        <tr><td><strong>GS</strong></td><td>T.S. en Anatomía Patológica y Citodiagnóstico</td><td>2.000h</td><td>22</td></tr>
+      </tbody></table>
+      <div style="display:flex;gap:12px;margin-bottom:14px;flex-shrink:0;">
+        <div class="sc-card" style="flex:1;"><div class="sc-n">125</div><div class="sc-l">Alumnos totales</div></div>
+        <div class="sc-card" style="flex:1;"><div class="sc-n">5</div><div class="sc-l">Ciclos Sanidad</div></div>
+        <div class="sc-card" style="flex:1;"><div class="sc-n">9</div><div class="sc-l">Docentes Dpto.</div></div>
+      </div>
+      <div style="flex-shrink:0;"><span class="tag">Sello Excelencia FP</span><span class="tag">eTwinning</span><span class="tag">Erasmus+ VET</span><span class="tag">Convenio EPES-061</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- NUESTROS ESTUDIANTES -->
+<div class="sc" id="sc-est">
+  <div class="stw">
+    <div class="sttabs"><div class="stt active" onclick="switchTab(0)">Perfil del alumnado</div><div class="stt" onclick="switchTab(1)">Vías de acceso</div><div class="stt" onclick="switchTab(2)">Diversidad cultural</div></div>
+    <div class="stcont">
+      <div class="stp active" id="stp0"><div class="stis"><img src="images/perfil.png" alt="Perfil"></div><div class="stis2"><div class="pt">El Centro · Nuestros Estudiantes</div><div class="ph" style="font-size:34px;margin-bottom:18px;">Perfil GM TES<br>Curso 25/26</div><div class="ib"><div class="il">Género</div><div class="it"><strong>65% Hombres</strong> (17) · <strong>35% Mujeres</strong> (9) — perfil invertido respecto a otros ciclos sanitarios, vinculado a la demanda laboral del sector</div></div><div class="ib"><div class="il">Edad y experiencia</div><div class="it"><strong>21 alumnos/as</strong> entre 18–30 años · <strong>5 alumnos/as</strong> entre 30–50 años en reconversión profesional (Bomberos, Cuerpos de Seguridad)</div></div><div class="ib"><div class="il">Situación laboral</div><div class="it"><strong>19 matrículas</strong> dedicación exclusiva · <strong>7 matrículas</strong> compaginan con trabajo como auxiliares de ambulancia o voluntarios Cruz Roja</div></div></div></div>
+      <div class="stp" id="stp1"><div class="stis"><img src="images/acceso.png" alt="Acceso"></div><div class="stis2"><div class="pt">El Centro · Nuestros Estudiantes</div><div class="ph" style="font-size:34px;margin-bottom:18px;">Vías de acceso<br>al ciclo GM TES</div><div class="ib"><div class="il">Graduado en ESO (título)</div><div class="it"><strong>21 alumnos/as (81%)</strong> — vía principal de acceso con titulación de Educación Secundaria Obligatoria</div></div><div class="ib"><div class="il">Prueba de acceso a Grado Medio</div><div class="it"><strong>3 alumnos/as (11,5%)</strong> — acceso vía prueba de acceso específica a ciclos de Grado Medio</div></div><div class="ib"><div class="il">FP Básica Servicios Socioculturales</div><div class="it"><strong>2 alumnos/as (7,5%)</strong> — acceso por Programa de Formación Básica de Servicios Socioculturales</div></div></div></div>
+      <div class="stp" id="stp2"><div class="stis"><img src="images/laboral.png" alt="Diversidad"></div><div class="stis2"><div class="pt">El Centro · Nuestros Estudiantes</div><div class="ph" style="font-size:34px;margin-bottom:18px;">Diversidad<br>cultural y apoyo</div><div class="ib"><div class="il">Procedencia internacional</div><div class="it"><strong>4 alumnos/as</strong> procedentes de Latinoamérica y Marruecos — enriquecimiento multicultural para el grupo</div></div><div class="ib"><div class="il">Competencia lingüística</div><div class="it">Nivel de español adecuado en todos los casos. La diversidad cultural aporta perspectivas enriquecedoras en el trabajo en equipo y en la atención a pacientes de diferente origen</div></div><div class="ib"><div class="il">Perfil laboral integrado</div><div class="it">Un grupo diverso con experiencia laboral inicial y adaptación cultural — un activo en la formación dual orientada al entorno profesional real</div></div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ACNEAE -->
+<div class="sc" id="sc-acneae">
+  <div class="acng">
+    <div class="acnc"><div class="acniw"><img src="images/dislexia.png" alt="Alumna A"></div><div class="acnn">Alumna A</div><div class="acnco">Dislexia Moderada</div><div style="width:100%;"><div class="acnm">Tiempo adicional +25% en pruebas escritas y cuaderno de prácticas digital</div><div class="acnm">El tutor de empresa revisa verbalmente los registros ePCR antes del envío definitivo</div><div class="acnm">Informes de seguimiento en formato de audio como alternativa válida</div><div class="acnm">Tipografía ampliada e instrucciones en formato oral y escrito en el aula</div></div></div>
+    <div class="acnc"><div class="acniw"><img src="images/tdah.png" alt="Alumno B"></div><div class="acnn">Alumno B</div><div class="acnco">TDAH</div><div style="width:100%;"><div class="acnm">Fragmentación de tareas de registro y documentación en bloques cortos</div><div class="acnm">Instrucciones claras, concisas y secuenciadas en empresa y en el aula</div><div class="acnm">Evitar sobrecarga de información simultánea durante los servicios en empresa</div><div class="acnm">Comunicación breve al final de cada turno para refuerzo positivo del desempeño</div><div class="acnm">Ubicación preferente en el aula; listas de verificación como apoyo organizativo</div></div></div>
+    <div class="acnc"><div class="acniw"><img src="images/aci.png" alt="Alumno C"></div><div class="acnn">Alumno C</div><div class="acnco">Altas Capacidades (ACI)</div><div style="width:100%;"><div class="acnm">Participación activa en el debriefing post-intervención junto al médico coordinador</div><div class="acnm">Rol de Jefe de Equipo en los simulacros integrados NRBQ en empresa</div><div class="acnm">Proyecto de mejora de protocolo como actividad de ampliación voluntaria</div><div class="acnm">Mentorización de compañeros durante las prácticas supervisadas en empresa</div></div></div>
+  </div>
+</div>
+
+<!-- MODULO COVER -->
+<div class="sc" id="sc-modulo-cov">
+  <div class="cov"><div class="cbg" style="background-image:url('images/base.png')"></div><div class="cov-ol"></div>
+  <div class="cc"><div class="ctag">Módulo &amp; Empresa</div><div class="ctitle">Módulo<br><span>0056</span><br>&amp; Base 061</div><div class="csub">El módulo de mayor complejidad técnica del ciclo TES y la empresa que hace posible sus contenidos más innovadores</div><div class="cexp"><div class="cdot"></div><span class="cname">Belén Santiago</span></div></div></div>
+</div>
+
+<!-- EL MODULO -->
+<div class="sc" id="sc-modulo">
+  <div class="modg">
+    <div class="modl">
+      <div class="pt ptw">Módulo &amp; Empresa</div>
+      <div class="ph phw" style="font-size:30px;margin-bottom:14px;">Ficha<br>Módulo 0056</div>
+      <div class="mfr"><span class="mfl">Denominación</span><span class="mfv">Atención Sanitaria Especial en Situaciones de Emergencia</span></div>
+      <div class="mfr"><span class="mfl">Código</span><span class="mfv">0056</span></div>
+      <div class="mfr"><span class="mfl">Ciclo</span><span class="mfv">TES – Grado Medio, Familia Sanidad</span></div>
+      <div class="mfr"><span class="mfl">Normativa</span><span class="mfv">RD 1397/2007 · RD 287/2023<br>Orden 7/07/2009 (BOJA nº 166)</span></div>
+      <div class="mfr"><span class="mfl">Horas</span><span class="mfv">224 h totales · 13 ECTS</span></div>
+      <div class="mfr"><span class="mfl">Curso</span><span class="mfv">2º curso del ciclo</span></div>
+      <div class="mfr"><span class="mfl">Cualific.</span><span class="mfv">SAN025_2 · SAN122_2 · UC0361_2</span></div>
+      <div class="mfr" style="border:none;margin-top:auto;"><span class="mfl">CE Innov.</span><span class="mfv" style="color:#FFD0DC;font-weight:600;">CE 3d – Radiaciones/NRBQ<br>CE 4b – Agentes biológicos</span></div>
+    </div>
+    <div class="modr">
+      <div class="pt" style="margin-bottom:8px;">Resultados de aprendizaje — RD 1397/2007 · Orden 7/07/2009 (BOJA nº 166)</div>
+      <table class="rat" style="flex:1;">
+        <thead><tr><th>RA</th><th>Denominación</th><th>Contenidos</th><th>Bloom</th><th>Estado</th></tr></thead>
+        <tbody>
+          <tr><td class="rac">RA1</td><td>Soporte vital avanzado</td><td>Material emergencias, vía aérea, hemostasia, ECG, SVA pediátrico</td><td><span class="bb"><span class="bd bn3"></span>N3</span> <span class="bb"><span class="bd bn4"></span>N4</span></td><td>Actualizado</td></tr>
+          <tr><td class="rac">RA2</td><td>Medicación de emergencia</td><td>Vías administración, cálculo dosis, farmacología emergencias</td><td><span class="bb"><span class="bd bn3"></span>N3</span> <span class="bb"><span class="bd bn4"></span>N4</span></td><td>Actualizado</td></tr>
+          <tr><td class="rac">RA3</td><td>Traumatismos y agentes físicos</td><td>Biomecánica trauma, vendajes, lesiones físicas, radiaciones ionizantes</td><td><span class="bb"><span class="bd bn3"></span>N3</span> <span class="bb"><span class="bd bn4"></span>N4</span></td><td>Actualiz. <span class="rai">CE 3d</span></td></tr>
+          <tr><td class="rac">RA4</td><td>Agentes químicos y biológicos</td><td>Agentes QBN, descontaminación, bioseguridad, EPIs nivel alto</td><td><span class="bb"><span class="bd bn3"></span>N3</span> <span class="bb"><span class="bd bn4"></span>N4</span></td><td>Actualiz. <span class="rai">CE 4b</span></td></tr>
+          <tr><td class="rac">RA5</td><td>Patología orgánica urgente</td><td>Cardiovascular (SCA, shock), respiratoria (EPOC, asma), neurológica (ACV)</td><td><span class="bb"><span class="bd bn3"></span>N3</span> <span class="bb"><span class="bd bn4"></span>N4</span></td><td>Actualizado</td></tr>
+          <tr><td class="rac">RA6</td><td>Parto inminente</td><td>Fases del parto, maniobras soporte, resucitación neonatal</td><td><span class="bb"><span class="bd bn2"></span>N2</span> <span class="bb"><span class="bd bn3"></span>N3</span></td><td>Desactualiz.</td></tr>
+        </tbody>
+      </table>
+      <div style="display:flex;gap:14px;margin-top:10px;align-items:center;flex-shrink:0;font-size:13px;color:var(--tl);">
+        <span class="bb"><span class="bd bn2"></span>N2 Comprender</span>
+        <span class="bb"><span class="bd bn3"></span>N3 Aplicar</span>
+        <span class="bb"><span class="bd bn4"></span>N4 Analizar</span>
+        <span style="margin-left:auto;"><span class="rai" style="font-size:10px;">CE X</span> = Solo desarrollable en empresa</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EMPRESA -->
+<div class="sc" id="sc-empresa">
+  <div class="empg">
+    <div class="empl">
+      <div class="pt">Módulo &amp; Empresa</div>
+      <div class="ph" style="font-size:30px;margin-bottom:8px;">Base 061 EPES Jerez</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;flex-shrink:0;"><span class="tag">Empresa pública Consejería de Salud</span><span class="tag">Cobertura provincial Cádiz</span><span class="tag">Actividad 24/7</span></div>
+      <p style="font-size:15px;color:var(--tm);line-height:1.6;margin-bottom:10px;flex-shrink:0;">Principal nodo operativo de emergencias sanitarias prehospitalarias de Cádiz. Opera con ambulancias SVA/SVB en actividad continua y dispone de vehículos de intervención especial NRBQ en coordinación con Protección Civil y Guardia Civil.</p>
+      <table class="ttech" style="flex:1;">
+        <thead><tr><th>Equipo / Sistema</th><th>Descripción técnica</th><th>CE módulo 0056</th></tr></thead>
+        <tbody>
+          <tr><td class="tn">Monitor-desfibrilador SVA</td><td>Bifásico, ECG 12 deriv., capnografía EtCO₂, pulsioximetría, marcapasos externo</td><td class="tc">CE 1b, CE 1c, CE 5a</td></tr>
+          <tr><td class="tn">Telemedicina prehospitalaria (HELIOX®)</td><td>Transmisión tiempo real ECG, constantes y vídeo al hospital receptor</td><td class="tc">CE 5a, CE 1b</td></tr>
+          <tr><td class="tn">Sistema SIGEA + ePCR</td><td>Geolocalización GPS, parte asistencial electrónico, triage START/SALT digital</td><td class="tc">Todos los RA</td></tr>
+          <tr><td class="tn">Trajes NBQ nivel B/C</td><td>Gore-Tex multicapa, compatible con SCBA (equipo autónomo respiración)</td><td class="tc">CE 4b</td></tr>
+          <tr><td class="tn">Dosímetro electrónico Mirion DMC 3000</td><td>Dosis gamma/beta, alarma sonora/visual, registro digital</td><td class="tc">CE 3d</td></tr>
+          <tr><td class="tn">Unidad descontaminación portátil</td><td>Duchas plegables, solución descontaminante, bolsas residuos clase III</td><td class="tc">CE 4b, CE 3d</td></tr>
+          <tr><td class="tn">Comunicaciones TETRA cifradas</td><td>Red TETRA Junta de Andalucía, cifrado extremo a extremo</td><td class="tc">CE 3d, CE 4b</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="empr"><img src="images/base.png" alt="Base 061"></div>
+  </div>
+</div>
+
+<!-- TUTOR -->
+<div class="sc" id="sc-tutor">
+  <div class="tutg">
+    <div class="tutl">
+      <div class="pt ptw">Módulo &amp; Empresa</div>
+      <div class="ph phw" style="font-size:30px;margin-bottom:14px;">Tutor<br>de Empresa</div>
+      <p style="font-size:15px;color:rgba(255,255,255,.9);line-height:1.65;margin-bottom:16px;">Figura clave del modelo dual. Actúa como enlace entre el entorno profesional real y el proceso de aprendizaje del alumnado.</p>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.65);margin-bottom:10px;">Perfil requerido</div>
+      <div class="mfr" style="border-color:rgba(255,255,255,.18);"><span class="mfl">Titulación</span><span class="mfv">Técnico/a en Emergencias Sanitarias</span></div>
+      <div class="mfr" style="border-color:rgba(255,255,255,.18);"><span class="mfl">Experiencia</span><span class="mfv">Mínimo 3 años en Base 061 EPES</span></div>
+      <div class="mfr" style="border-color:rgba(255,255,255,.18);border-bottom:none;"><span class="mfl">Habilitación</span><span class="mfv">Formación tutorización dual — Orden 26/09/2025</span></div>
+      <div style="margin-top:auto;"><div class="tccg"><div class="tcc"><div class="tn2">2/sem</div><div class="tl">Cuaderno digital Moodle</div></div><div class="tcc"><div class="tn2">Quincenal</div><div class="tl">Reunión tutores CIFP + Empresa</div></div><div class="tcc"><div class="tn2">Mensual</div><div class="tl">Informe desempeño empresa</div></div></div></div>
+    </div>
+    <div class="tutr">
+      <div class="pt">Organigrama formativo en empresa</div>
+      <div class="ph" style="font-size:26px;margin-bottom:14px;">Roles y funciones</div>
+      <div class="trc"><div><div class="tt">Coordinador/a de Base 061 Jerez</div><div class="tx">Responsable organización general. Aprueba el plan de actividades FE/Dual y firma el convenio de colaboración con la Dirección del CIFP Salud Jerez.</div></div></div>
+      <div class="trc"><div><div class="tt">Médico/a Coordinador/a 061</div><div class="tx">Supervisa actividades asistenciales reales. Referente clínico para los CE innovadores (NRBQ, telemedicina, SVA avanzado).</div></div></div>
+      <div class="trc hi"><div><div class="tt">Tutor/a de empresa (figura clave)</div><div class="tx">Acompaña al alumnado en guardias, evalúa mediante rúbrica conjunta, mantiene comunicación quincenal con el tutor del CIFP y cumplimenta el cuaderno de seguimiento en Moodle.</div></div></div>
+      <div class="trc"><div><div class="tt">Enfermero/a de guardia SVA</div><div class="tx">Referente técnico en intervenciones SVA. El alumnado observa y practica bajo supervisión las técnicas de soporte vital avanzado y administración de medicación de emergencia.</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ACTIVIDADES COVER -->
+<div class="sc" id="sc-act-cov">
+  <div class="cov"><div class="cbg" style="background-image:url('images/actividades.png')"></div><div class="cov-ol"></div>
+  <div class="cc"><div class="ctag">Actividades</div><div class="ctitle">Enseñanza<br><span>Aprendizaje</span><br>en Aula</div><div class="csub">Actividades innovadoras que preparan al alumnado para su incorporación a la Base 061 EPES Jerez</div><div class="cexp"><div class="cdot"></div><span class="cname">José Antonio Sola</span></div></div></div>
+</div>
+
+<!-- MOTIVACION -->
+<div class="sc" id="sc-motiv">
+  <div class="motl">
+    <div class="moti"><img src="images/drones.png" alt="Drones triaje remoto"></div>
+    <div class="motc">
+      <div class="pt">Actividades · Punto de partida motivador</div>
+      <div class="ph" style="font-size:32px;margin-bottom:14px;">Elemento innovador<br>de motivación</div>
+      <div class="nb">
+        <div class="nt">Noticia de actualidad · Universidad de Jaén + 061</div>
+        <div class="ntit">Drones para triaje remoto en emergencias con múltiples víctimas</div>
+        <div class="ntx">Investigadores de la UJA junto con profesionales del 061 realizaron un ejercicio práctico usando drones para evaluar víctimas y aplicar el algoritmo de triaje remoto ARTS, incluyendo identificación de hemorragias potencialmente letales.</div>
+        <div class="nsrc">Fuente: Diario Digital Universidad de Jaén · diariodigital.ujaen.es</div>
+      </div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--tl);margin-bottom:10px;flex-shrink:0;">Conexión directa con el módulo 0056</div>
+      <div class="mcx">
+        <div class="mci"><div class="mcc">RA3</div><div class="mctx">Triaje en incidentes con múltiples víctimas y valoración inicial de la víctima</div></div>
+        <div class="mci"><div class="mcc">RA4</div><div class="mctx">Seguridad en la escena y protocolos NRBQ cuando el acceso humano es imposible</div></div>
+        <div class="mci"><div class="mcc">RA5</div><div class="mctx">Uso del DESA y coordinación extrahospitalaria con el Centro Coordinador 061</div></div>
+        <div class="mci hi"><div class="mcc" style="font-size:14px;line-height:1.2;">Caso<br>práctico</div><div class="mctx" style="font-style:italic;color:var(--td);">«Accidente de autobús en zona de montaña inaccesible. El dron llega primero. ¿Cómo aplicas el triaje ARTS? ¿Qué datos envías al 061?» — 10–15 min debate grupal</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ACTIVIDAD 1 -->
+<div class="sc" id="sc-act1">
+  <div class="actl">
+    <div class="acti"><img src="images/actividad1.png" alt="Actividad 1"></div>
+    <div class="actc">
+      <div class="ahb"><div class="ahc">Actividad 1</div><div class="aht">RA1 · CE a,b,c,d · 110 min · 2 sesiones · Sala Emergencias + Aula</div></div>
+      <div class="asc"><strong>Escenario:</strong> «La ambulancia regresa tras un politraumatizado en accidente de tráfico. Material desorganizado y parcialmente consumido. En 30 minutos puede activarse un nuevo aviso.»</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--tl);flex-shrink:0;">Preparación de la ambulancia tras guardia · Fases</div>
+      <div class="fr"><div class="fn">1</div><div style="flex:1;"><div class="ftit">Inspección en ambulancia</div><div class="ftx">Cada equipo detecta errores, desorden y material faltante o en mal estado</div></div><div class="fd">30 min</div></div>
+      <div class="fr"><div class="fn">2</div><div style="flex:1;"><div class="ftit">Clasificación y priorización</div><div class="ftx">Clasificar por áreas clínicas y establecer orden de reposición urgente con criterio clínico justificado</div></div><div class="fd">25 min</div></div>
+      <div class="fr"><div class="fn">3</div><div style="flex:1;"><div class="ftit">Puesta en común en el aula</div><div class="ftx">Cada equipo expone mapa de prioridades; docente conduce preguntas de transferencia clínica</div></div><div class="fd">30 min</div></div>
+      <div class="fr"><div class="fn">4</div><div style="flex:1;"><div class="ftit">Reflexión y coevaluación</div><div class="ftx">Debriefing guiado, ficha de autoevaluación y rúbrica analítica entre equipos</div></div><div class="fd">25 min</div></div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--tl);flex-shrink:0;margin-top:2px;">Extracto rúbrica de evaluación</div>
+      <table class="rm"><thead><tr><th>Criterio</th><th>4 – Excelente</th><th>2 – Básico</th></tr></thead><tbody>
+        <tr><td>Identificación de riesgos</td><td>Detecta todos, fundamenta impacto clínico</td><td>Detecta algunos sin justificación</td></tr>
+        <tr><td>Priorización clínica</td><td>Argumenta con fundamento técnico sólido</td><td>Justificación limitada, poco fundamentada</td></tr>
+        <tr><td>Trabajo en equipo</td><td>Excelente comunicación y liderazgo colaborativo</td><td>Participación irregular, sin coordinación</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+</div>
+
+<!-- ACTIVIDAD 2 -->
+<div class="sc" id="sc-act2">
+  <div class="actl">
+    <div class="acti"><img src="images/actividad2.png" alt="Actividad 2"></div>
+    <div class="actc">
+      <div class="ahb"><div class="ahc">Actividad 2</div><div class="aht">RA3 CE 3d + RA4 CE 4b · 120 min · 2 sesiones · Sala + Exterior</div></div>
+      <div class="asc"><strong>Escenario:</strong> «Accidente en laboratorio con derrame de sustancia biológica de alto riesgo y posible contaminación radiológica. 8 víctimas con distintos niveles de exposición. La Base 061 activa el protocolo NRBQ.»</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--tl);flex-shrink:0;">Simulacro NRBQ · Incidente con Múltiples Víctimas · Fases</div>
+      <div class="fr"><div class="fn">1</div><div style="flex:1;"><div class="ftit">Briefing y asignación de roles</div><div class="ftx">Jefe Equipo, TES campo, Técnico Descontaminación, Operador Comunicaciones</div></div><div class="fd">15 min</div></div>
+      <div class="fr"><div class="fn">2</div><div style="flex:1;"><div class="ftit">Simulacro en espacio exterior</div><div class="ftx">Protocolo NRBQ completo: perímetros zona caliente/templada/fría, EPIs, triage START, descontaminación</div></div><div class="fd">50 min</div></div>
+      <div class="fr"><div class="fn">3</div><div style="flex:1;"><div class="ftit">Evaluación en tiempo real</div><div class="ftx">Docente registra con rúbrica analítica; grabación en vídeo para uso en el debriefing posterior</div></div><div class="fd">–</div></div>
+      <div class="fr"><div class="fn">4</div><div style="flex:1;"><div class="ftit">Debriefing estructurado</div><div class="ftx">Revisión conjunta del vídeo, análisis de momentos críticos, conexión con la Base 061</div></div><div class="fd">35 min</div></div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--tl);flex-shrink:0;margin-top:2px;">Extracto rúbrica de evaluación</div>
+      <table class="rm"><thead><tr><th>Criterio</th><th>4 – Excelente</th><th>2 – Básico</th></tr></thead><tbody>
+        <tr><td>Activación protocolo NRBQ</td><td>Activa en &lt;2 min, comunica correctamente al coordinador</td><td>Activa con errores relevantes o sin comunicar</td></tr>
+        <tr><td>Colocación EPIs nivel alto</td><td>Coloca en orden correcto sin ayuda</td><td>Errores en orden o ajuste de algún EPI</td></tr>
+        <tr><td>Triage START/SALT</td><td>Clasifica correctamente todas las víctimas</td><td>Clasifica la mitad con justificación limitada</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+</div>
+
+<!-- FP DUAL COVER -->
+<div class="sc" id="sc-dual-cov">
+  <div class="cov"><div class="cbg" style="background-image:url('images/dual.png')"></div><div class="cov-ol"></div>
+  <div class="cc"><div class="ctag">FP Dual</div><div class="ctitle">Formación<br><span>Dual</span><br>TES</div><div class="csub">Formación + Empresa = Experiencia real, futuro real. Módulo 0056 compartido entre CIFP y Base 061</div><div class="cexp"><div class="cdot"></div><span class="cname">Marta Mombiela</span></div></div></div>
+</div>
+
+<!-- POR QUE DUAL -->
+<div class="sc" id="sc-porq">
+  <div class="dwg">
+    <div class="dwl">
+      <div class="pt">FP Dual</div>
+      <div class="ph" style="font-size:32px;margin-bottom:14px;">¿Por qué<br>la FP Dual?</div>
+      <div class="dr"><div class="dri"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg></div><div><div class="drt">Entorno auténtico e irreproducible</div><div class="drtx">Las emergencias extrahospitalarias son situaciones de alta complejidad que ningún simulacro puede reproducir totalmente. La Base 061 aporta lo que el CIFP no puede ofrecer: el entorno real.</div></div></div>
+      <div class="dr"><div class="dri"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg></div><div><div class="drt">CE innovadores solo en empresa</div><div class="drtx">CE 3d (radiaciones/NRBQ) y CE 4b (agentes biológicos) requieren dosímetros reales, trajes nivel B/C y unidades de descontaminación que solo existen en la Base 061.</div></div></div>
+      <div class="dr"><div class="dri"><svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg></div><div><div class="drt">Empleabilidad directa</div><div class="drtx">El alumnado finaliza habiendo operado con SIGEA/ePCR, telemedicina prehospitalaria y protocolos reales del 061 de Andalucía, con ventaja competitiva directa en el mercado laboral.</div></div></div>
+      <div class="dr"><div class="dri"><svg viewBox="0 0 24 24"><path d="M14 6l-1-2H5v17h2v-7h5l1 2h7V6h-6zm4 8h-4l-1-2H7V6h5l1 2h5v6z"/></svg></div><div><div class="drt">Marco normativo claro</div><div class="drtx">RD 1397/2007 bajo FCT reforzada al amparo de la Orden 26/09/2025 (BOJA nº 187 Comp.) — régimen transitorio sin conflicto con la LO 3/2022.</div></div></div>
+    </div>
+    <div class="dwr">
+      <div class="pt">FP Dual</div>
+      <div class="ph" style="font-size:28px;margin-bottom:14px;">Distribución de horas</div>
+      <div class="nb2"><div class="nbt">Marco normativo del modelo</div><div class="nbtx">Articulado como <strong>FCT reforzada</strong> al amparo de la <strong>Orden 26/09/2025</strong> (BOJA nº 187 Complementario). El ciclo TES (RD 1397/2007) no aplica el esquema dual LO 3/2022/RD 659/2023, pero el resultado formativo para el alumnado es equivalente.</div></div>
+      <div class="db"><div class="dbl"><strong>Módulo 0056 en centro</strong><span>164h (73%)</span></div><div class="dbt"><div class="dbf" style="width:73%"></div></div></div>
+      <div class="db"><div class="dbl"><strong>Módulo 0056 en empresa</strong><span>60h (27%)</span></div><div class="dbt"><div class="dbf" style="width:27%"></div></div></div>
+      <div class="db"><div class="dbl"><strong>CE innovadores en empresa</strong><span>38h prioritarias</span></div><div class="dbt"><div class="dbf" style="width:63%"></div></div></div>
+      <table class="dt">
+        <thead><tr><th>Concepto</th><th>Centro CIFP</th><th>Empresa Base 061</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Módulo 0056 total</strong></td><td>164h (teórica + taller)</td><td>60h empresa</td></tr>
+          <tr><td>CE innovadores</td><td>18h teoría + 6h taller</td><td>26h empresa</td></tr>
+          <tr><td>Período principal</td><td>Sep 2025 – Jun 2026</td><td>Oct 2025 – Mar 2026</td></tr>
+          <tr><td>Jornada</td><td>Sesiones 2h/módulo</td><td>2–3 días/semana alternancia</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- TEMPORIZACION -->
+<div class="sc" id="sc-temp">
+  <div class="teg">
+    <div class="tel">
+      <div class="pt">FP Dual</div>
+      <div class="ph" style="font-size:30px;margin-bottom:10px;">Temporización<br>Período en Empresa</div>
+      <p style="font-size:15px;color:var(--tm);line-height:1.6;margin-bottom:12px;flex-shrink:0;">9 semanas de estancia en alternancia. Concentración de CE innovadores en el 2º trimestre (enero–marzo 2026).</p>
+      <table class="st" style="flex:1;">
+        <thead><tr><th>Sem.</th><th>Período</th><th>CE</th><th>H.</th><th>Actividad principal en empresa</th></tr></thead>
+        <tbody>
+          <tr><td class="stn">1–3</td><td>Oct–Nov 2025</td><td class="stc">CE 4b</td><td>12h</td><td>Protocolos bioseguridad SVB/SVA. Revisión EPIs y lavado/descontaminación vehículo</td></tr>
+          <tr><td class="stn">4–6</td><td>Ene–Feb 2026</td><td class="stc">CE 4b</td><td>12h</td><td>Descontaminación supervisada tras intervención de riesgo infeccioso. Trajes NRBQ nivel B/C</td></tr>
+          <tr><td class="stn">7–8</td><td>Feb–Mar 2026</td><td class="stc">CE 3d</td><td>8h</td><td>Simulacro NRBQ con Protección Civil. Dosímetros electrónicos reales. Triage incidente radiológico</td></tr>
+          <tr><td class="stn">9</td><td>Mar 2026</td><td class="stc">3d+4b</td><td>6h</td><td>Simulacro integrado IMV NRBQ/biológico. Evaluación por tutor/a laboral</td></tr>
+          <tr><td colspan="3" style="font-weight:700;color:var(--td);font-size:15px;">TOTAL CE innovadores</td><td style="font-weight:800;color:var(--red);font-size:16px;">38h</td><td style="color:var(--tl);">22h restantes: RA1, RA2, RA5, RA6</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="ter">
+      <div class="pt">¿Qué aprende dónde?</div>
+      <div class="ph" style="font-size:28px;margin-bottom:10px;">Distribución<br>CIFP ↔ Empresa</div>
+      <table class="st" style="flex:1;">
+        <thead><tr><th>RA</th><th>En el CIFP Salud Jerez</th><th>En la Base 061 EPES</th></tr></thead>
+        <tbody>
+          <tr><td class="stc">RA1</td><td>Material, técnicas vía aérea, hemostasia y ECG con maniquíes</td><td>Técnicas SVA reales, monitor-desfibrilador, ePCR en servicio</td></tr>
+          <tr><td class="stc">RA2</td><td>Cálculo dosis, farmacología con casos clínicos simulados</td><td>Observación preparación y administración fármacos UVI móvil</td></tr>
+          <tr><td class="stc">RA3</td><td>Biomecánica trauma, fundamentos CE 3d, simulacro NRBQ</td><td>Dosímetros reales, triage incidente radiológico, Protección Civil</td></tr>
+          <tr><td class="stc">RA4</td><td>Agentes biológicos/químicos, EPIs básicos, protocolos OMS/ECDC</td><td>EPIs nivel alto reales, descontaminación ambulancias riesgo infeccioso</td></tr>
+          <tr><td class="stc">RA5</td><td>Patología cardiovascular, respiratoria y neurológica urgente</td><td>Intervenciones SVA reales, sistema SIGEA, telemedicina prehospitalaria</td></tr>
+          <tr><td class="stc">RA6</td><td>Parto inminente con simulador obstétrico y maniquí neonatal</td><td>Observación traslados obstétricos urgentes bajo supervisión SVA</td></tr>
+        </tbody>
+      </table>
+      <div style="margin-top:12px;background:var(--rf);border:1px solid rgba(194,0,47,.2);padding:13px 16px;flex-shrink:0;">
+        <div class="pt" style="margin-bottom:4px;">Principio pedagógico</div>
+        <p style="font-size:14px;color:var(--tm);line-height:1.6;">El centro construye las bases conceptuales mediante simulación controlada; la empresa las consolida y transfiere al contexto profesional real. Este diseño en continuidad distingue un modelo dual de calidad de una simple suma de horas.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EVALUACION COVER -->
+<div class="sc" id="sc-eval-cov">
+  <div class="cov"><div class="cbg" style="background-image:url('images/evaluacion.png')"></div><div class="cov-ol"></div>
+  <div class="cc"><div class="ctag">Evaluación</div><div class="ctitle">Medimos<br><span>para</span><br>Mejorar</div><div class="csub">Sistema de evaluación conjunta Centro–Empresa, autoevaluación y coevaluación del alumnado</div><div class="cexp"><div class="cdot"></div><span class="cname">Carmen Cosano</span></div></div></div>
+</div>
+
+<!-- COMO SE EVALUA -->
+<div class="sc" id="sc-eval">
+  <div class="evg">
+    <div class="evl">
+      <div class="pt ptw">Evaluación</div>
+      <div class="ph phw" style="font-size:34px;margin-bottom:14px;">¿Cómo<br>se evalúa?</div>
+      <p style="font-size:15px;color:rgba(255,255,255,.9);line-height:1.65;margin-bottom:16px;">Rúbrica conjunta Centro–Empresa: instrumento común que delimita qué se evalúa, quién evalúa y qué nivel de desempeño se espera.</p>
+      <div style="background:rgba(255,255,255,.14);padding:14px 16px;margin-bottom:14px;">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:6px;">Nota mínima para superar</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:48px;font-weight:800;color:var(--w);line-height:1;">5,00</div>
+        <div style="font-size:13px;color:rgba(255,255,255,.7);margin-top:5px;">Si competencias técnicas &lt;4/10 → módulo no superado independientemente del resto</div>
+      </div>
+      <div style="margin-top:auto;">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:8px;">Fórmula nota final</div>
+        <div style="background:rgba(255,255,255,.12);padding:12px 14px;font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;color:var(--w);">A(60%) + B(25%) + C(15%) = NOTA</div>
+      </div>
+    </div>
+    <div class="evr">
+      <div class="pt">Bloques de evaluación</div>
+      <div class="ph" style="font-size:26px;margin-bottom:12px;">Rúbrica Conjunta Centro–Empresa</div>
+      <div class="ebs">
+        <div class="eb"><div class="ebw">Centro + Empresa</div><div class="ebt">A · Comp. Técnicas</div><div class="ebp">60%</div><div class="ebis"><div class="ebi">SVA y técnicas (15%)</div><div class="ebi">Farmacología (10%)</div><div class="ebi hi">Radiaciones NRBQ CE 3d (10%) ★</div><div class="ebi hi">Agentes biológicos CE 4b (10%) ★</div><div class="ebi">Patología orgánica urgente (10%)</div><div class="ebi">Parto inminente (5%)</div></div></div>
+        <div class="eb"><div class="ebw">Principalmente Empresa</div><div class="ebt">B · Soft Skills</div><div class="ebp">25%</div><div class="ebis"><div class="ebi">Responsabilidad y actitud profesional (8%)</div><div class="ebi">Comunicación y trabajo en equipo (8%)</div><div class="ebi">Adaptabilidad y resolución de problemas (5%)</div><div class="ebi">Gestión del tiempo y organización (4%)</div></div></div>
+        <div class="eb"><div class="ebw">Centro CIFP</div><div class="ebt">C · Documentación</div><div class="ebp">15%</div><div class="ebis"><div class="ebi">Cuaderno prácticas digital Moodle (8%)</div><div class="ebi">Participación tutorías de seguimiento (7%)</div></div></div>
+      </div>
+      <div style="background:var(--rf);border:1px solid rgba(194,0,47,.2);padding:12px 14px;flex-shrink:0;">
+        <span style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--red);">★ CE innovadores con peso específico propio — </span>
+        <span style="font-size:14px;color:var(--tm);">Solo evaluables con plenas garantías en el entorno real de la empresa.</span>
+      </div>
+      <div style="display:flex;gap:8px;flex-shrink:0;">
+        <div style="flex:1;text-align:center;background:var(--lg);padding:8px;border-top:3px solid #5B9BD5;"><div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:#5B9BD5;">1</div><div style="font-size:13px;color:var(--tl);">Insuficiente &lt;5</div></div>
+        <div style="flex:1;text-align:center;background:var(--lg);padding:8px;border-top:3px solid #ED7D31;"><div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:#ED7D31;">2</div><div style="font-size:13px;color:var(--tl);">Básico 5–6</div></div>
+        <div style="flex:1;text-align:center;background:var(--lg);padding:8px;border-top:3px solid var(--tm);"><div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:var(--tm);">3</div><div style="font-size:13px;color:var(--tl);">Bueno 7–8</div></div>
+        <div style="flex:1;text-align:center;background:var(--lg);padding:8px;border-top:3px solid var(--red);"><div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:var(--red);">4</div><div style="font-size:13px;color:var(--tl);">Excelente 9–10</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AUTOEVAL -->
+<div class="sc" id="sc-autoeval">
+  <div class="aeg">
+    <div class="ael">
+      <div class="pt">Evaluación</div>
+      <div class="ph" style="font-size:30px;margin-bottom:10px;">Instrumento de<br>Autoevaluación</div>
+      <p style="font-size:15px;color:var(--tm);line-height:1.6;margin-bottom:10px;flex-shrink:0;">Al finalizar el período en la Base 061. Cada alumno/a completa individualmente en Moodle. Contribuye con un <strong>5%</strong> a la nota final.</p>
+      <table class="aet" style="flex:1;">
+        <thead><tr><th>Dimensión</th><th>Pregunta de reflexión</th><th>Val.</th></tr></thead>
+        <tbody>
+          <tr><td>Competencia técnica</td><td>¿En qué medida he consolidado las técnicas SVA trabajadas en empresa?</td><td style="text-align:center;font-weight:700;color:var(--red);">1–4</td></tr>
+          <tr><td>CE innovadores</td><td>¿Me siento seguro/a aplicando el protocolo NRBQ y medidas de bioseguridad?</td><td style="text-align:center;font-weight:700;color:var(--red);">1–4</td></tr>
+          <tr><td>Trabajo en equipo</td><td>¿He contribuido activamente al equipo durante los servicios y simulacros?</td><td style="text-align:center;font-weight:700;color:var(--red);">1–4</td></tr>
+          <tr><td>Adaptabilidad</td><td>¿He sido capaz de adaptarme a situaciones imprevistas en empresa?</td><td style="text-align:center;font-weight:700;color:var(--red);">1–4</td></tr>
+          <tr><td>Gestión del tiempo</td><td>¿He gestionado bien el tiempo y la organización del material?</td><td style="text-align:center;font-weight:700;color:var(--red);">1–4</td></tr>
+          <tr><td>Cuaderno prácticas</td><td>¿He mantenido el cuaderno actualizado con registros completos y reflexivos?</td><td style="text-align:center;font-weight:700;color:var(--red);">1–4</td></tr>
+          <tr><td>Aprendizaje global</td><td>¿Qué es lo más valioso que me llevo de este período en empresa?</td><td style="text-align:center;color:var(--tl);">Abierta</td></tr>
+          <tr><td>Propuesta mejora</td><td>¿Qué cambiaría del modelo dual para la próxima promoción?</td><td style="text-align:center;color:var(--tl);">Abierta</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="aer">
+      <div class="pt">Evaluación</div>
+      <div class="ph" style="font-size:30px;margin-bottom:10px;">Coevaluación<br>Entre Pares</div>
+      <p style="font-size:15px;color:var(--tm);line-height:1.6;margin-bottom:10px;flex-shrink:0;">Al finalizar <strong>cada una de las dos actividades</strong>. Cada alumno/a evalúa a un compañero de equipo. Contribuye con un <strong>5%</strong> a la nota final.</p>
+      <div style="background:var(--w);flex:1;overflow:hidden;">
+        <div style="background:var(--red);padding:9px 14px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--w);display:grid;grid-template-columns:1fr 30px 30px 30px 30px;gap:4px;align-items:center;">
+          <span>Ítem de evaluación</span><span style="text-align:center;">1</span><span style="text-align:center;">2</span><span style="text-align:center;">3</span><span style="text-align:center;">4</span>
+        </div>
+        <div class="coi"><div class="con">1</div><div class="cot">Ha participado activamente en la actividad de equipo</div></div>
+        <div class="coi"><div class="con">2</div><div class="cot">Se ha comunicado de forma clara y respetuosa</div></div>
+        <div class="coi"><div class="con">3</div><div class="cot">Ha aportado ideas o soluciones al grupo</div></div>
+        <div class="coi"><div class="con">4</div><div class="cot">Ha asumido su rol con responsabilidad</div></div>
+        <div class="coi"><div class="con">5</div><div class="cot">Ha escuchado y valorado las opiniones de los demás</div></div>
+        <div class="coi"><div class="con">6</div><div class="cot">Ha mantenido la calma y el criterio ante los imprevistos del escenario</div></div>
+      </div>
+      <div style="margin-top:12px;display:flex;gap:10px;flex-shrink:0;">
+        <div style="flex:1;background:var(--rf);border:1px solid rgba(194,0,47,.2);padding:12px;text-align:center;"><div style="font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:800;color:var(--red);">5%</div><div style="font-size:13px;color:var(--tl);text-transform:uppercase;letter-spacing:.06em;">Coevaluación</div></div>
+        <div style="flex:1;background:var(--rf);border:1px solid rgba(194,0,47,.2);padding:12px;text-align:center;"><div style="font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:800;color:var(--red);">5%</div><div style="font-size:13px;color:var(--tl);text-transform:uppercase;letter-spacing:.06em;">Autoevaluación</div></div>
+        <div style="flex:2;background:var(--lg);padding:12px;display:flex;align-items:center;"><p style="font-size:14px;color:var(--tm);line-height:1.6;">Desarrollan metacognición y autorregulación — competencias esenciales en el TES, donde la revisión crítica post-servicio es práctica profesional inherente.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROFESORADO COVER -->
+<div class="sc" id="sc-prof-cov">
+  <div class="cov"><div class="cbg" style="background-image:url('images/profesorado.png')"></div><div class="cov-ol"></div>
+  <div class="cc"><div class="ctag">Profesorado</div><div class="ctitle">Líderes<br>en <span>Formación</span></div><div class="csub">Motivación, innovación y desarrollo profesional del equipo docente del Departamento de Sanidad</div><div class="cexp"><div class="cdot"></div><span class="cname">Mª Ángeles Moreno</span></div></div></div>
+</div>
+
+<!-- PROF MOTIVACION -->
+<div class="sc" id="sc-pmotiv">
+  <div class="pml">
+    <div class="pmi"><img src="images/slogan.png" alt="Formamos a quienes salvan vidas"></div>
+    <div class="pmc">
+      <div class="pt">Profesorado</div>
+      <div class="ph" style="font-size:36px;margin-bottom:16px;">Motivación del<br>Profesorado</div>
+      <p style="font-size:16px;color:var(--tm);line-height:1.65;margin-bottom:18px;">La sostenibilidad del modelo dual depende del nivel de motivación, actualización y cohesión del equipo docente del Departamento de Sanidad. Un profesorado implicado, con sentido de proyecto y recursos para actualizarse, es condición indispensable para que el alumnado reciba formación de calidad.</p>
+      <div class="scard sm"><div class="sty">Eslogan motivador</div><div class="stx2">«Las ideas innovadoras construyen el mañana»</div></div>
+      <div class="scard sc2"><div class="sty">Advertencia crítica</div><div class="stx2">«Innovar no es poner tecnología donde falta pedagogía»</div></div>
+      <div class="pmpr">El modelo dual aplica exactamente esta lógica: tecnología avanzada de la Base 061 EPES Jerez, pero siempre con <strong>RA concretos, actividades progresivas, evaluación con criterios claros y acompañamiento tutorial continuo</strong> como base pedagógica explícita.</div>
+    </div>
+  </div>
+</div>
+
+<!-- DESARROLLO DOCENTE -->
+<div class="sc" id="sc-des">
+  <div class="desl">
+    <div class="desh"><div><div class="desht">Plan Estratégico de Desarrollo Docente</div><div class="deshs">CIFP Salud Jerez — Departamento de Sanidad · 7 estrategias de mejora continua</div></div></div>
+    <div style="flex:1;overflow:hidden;display:grid;grid-template-columns:1fr 1fr 380px;background:var(--ow);gap:0;">
+      <div style="padding:22px 28px;display:flex;flex-direction:column;gap:10px;overflow:hidden;border-right:1px solid var(--mg);">
+        <div class="ib"><div class="il">E1 · Actualización técnico-clínica</div><div class="it">Formación anual en soporte vital avanzado, protocolos NRBQ actualizados y manejo de dispositivos de la Base 061 (monitor-desfibrilador, SIGEA/ePCR). Mínimo 20 h/año por docente.</div></div>
+        <div class="ib"><div class="il">E2 · Formación en metodología dual</div><div class="it">Participación en jornadas de FP Dual organizadas por la Junta de Andalucía y la red de CIFP sanitarios. Intercambio de buenas prácticas con centros de referencia del territorio nacional.</div></div>
+        <div class="ib"><div class="il">E3 · Coordinación docente estructurada</div><div class="it">Reuniones de departamento quincenales con acta y seguimiento. Comisión de coordinación CIFP–Empresa mensual con el tutor/a laboral para ajuste de contenidos y evaluación compartida.</div></div>
+        <div class="ib"><div class="il">E4 · Innovación educativa y tecnología</div><div class="it">Incorporación de simulación de alta fidelidad, gamificación y entornos de realidad aumentada para preparación de simulacros NRBQ. Integración de herramientas digitales en Moodle.</div></div>
+      </div>
+      <div style="padding:22px 28px;display:flex;flex-direction:column;gap:10px;overflow:hidden;border-right:1px solid var(--mg);">
+        <div class="ib"><div class="il">E5 · Investigación e innovación aplicada</div><div class="it">Participación en proyectos de investigación con la UJA, el 061 y otras instituciones sanitarias. Publicación de experiencias docentes en revistas de FP y congresos de Ciencias de la Salud.</div></div>
+        <div class="ib"><div class="il">E6 · Movilidad y redes profesionales</div><div class="it">Estancias de formación en empresa para el profesorado (mínimo 40 h bienales en empresa colaboradora). Participación en proyectos Erasmus+ VET y redes europeas de FP sanitaria.</div></div>
+        <div class="ib"><div class="il">E7 · Evaluación y mejora continua del modelo</div><div class="it">Encuestas de satisfacción del alumnado, autoevaluación docente y revisión anual de la programación. Indicadores de empleabilidad como retroalimentación del sistema.</div></div>
+        <div style="margin-top:auto;background:var(--red);padding:14px 18px;">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:6px;">Principio rector</div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;color:var(--w);line-height:1.2;">«Innovar no es poner tecnología donde falta pedagogía. Es construir aprendizaje donde hay propósito.»</div>
+        </div>
+      </div>
+      <div style="position:relative;overflow:hidden;"><img src="images/plan.png" alt="Plan estratégico" style="width:100%;height:100%;object-fit:cover;object-position:center;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- CONCLUSIONES COVER -->
+<div class="sc" id="sc-conc-cov">
+  <div class="cov"><div class="cbg" style="background-image:url('images/conclusiones.png')"></div><div class="cov-ol" style="background:linear-gradient(105deg,rgba(248,246,243,.97) 0%,rgba(248,246,243,.88) 40%,rgba(248,246,243,.3) 70%,transparent 100%)"></div>
+  <div class="cc"><div class="ctag">Conclusiones</div><div class="ctitle"><span>Conclusiones</span><br>del Proyecto</div><div class="csub">Un modelo viable, coherente y replicable para la formación de técnicos en emergencias sanitarias del futuro</div><div class="cexp"><div class="cdot"></div><span class="cname">Mª Ángeles Moreno</span></div></div></div>
+</div>
+
+<!-- CONCLUSIONES CONTENT -->
+<div class="sc" id="sc-conc">
+  <div class="concl">
+    <div class="concll">
+      <div class="pt">Conclusiones</div>
+      <div class="ph" style="font-size:32px;margin-bottom:16px;">Lo que hemos<br>demostrado</div>
+      <div class="ci"><div class="cb"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div><div class="ctx2"><strong>La implantación FP Dual en TES es viable</strong> desde el punto de vista normativo y organizativo, articulada bajo FCT reforzada al amparo de la Orden 26/09/2025 sin conflicto con LO 3/2022.</div></div>
+      <div class="ci"><div class="cb"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div><div class="ctx2"><strong>Los CE innovadores (CE 3d y CE 4b) solo pueden evaluarse con plenas garantías en empresa.</strong> Dosímetros reales, trajes NBQ nivel B/C y unidades de descontaminación son condición indispensable, no complemento opcional.</div></div>
+      <div class="ci"><div class="cb"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div><div class="ctx2"><strong>La distribución CIFP–empresa responde a una lógica pedagógica deliberada:</strong> el centro construye bases conceptuales mediante simulación controlada; la empresa las consolida y transfiere al contexto profesional real.</div></div>
+      <div class="ci"><div class="cb"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div><div class="ctx2"><strong>El análisis Bloom justifica la apuesta metodológica:</strong> RA y CE mayoritariamente en N3 (Aplicar) y N4 (Analizar) hacen de la simulación, los casos clínicos reales y el aprendizaje en entorno auténtico la respuesta coherente.</div></div>
+      <div class="ci"><div class="cb"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div><div class="ctx2"><strong>La calidad del modelo dual trasciende la normativa:</strong> motivación docente, formación del tutor de empresa, comunicación fluida entre tutores y transparencia evaluadora son igual de determinantes.</div></div>
+      <div class="ci"><div class="cb"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div><div class="ctx2"><strong>Proyecto perfectamente implementable en el curso 25/26</strong> en el CIFP Salud Jerez y replicable en otros ciclos de la familia Sanidad con características similares de entorno, empresa de referencia y perfil de alumnado.</div></div>
+      <div style="margin-top:auto;background:var(--red);padding:14px 18px;flex-shrink:0;"><div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;color:var(--w);line-height:1.2;">«Formamos a quienes salvan vidas.<br>Juntos aprendemos, juntos innovamos.»</div></div>
+    </div>
+    <div class="conclr"><img src="images/conclusiones2.png" alt="Conclusiones"></div>
+  </div>
+</div>
+
+</div><!-- /ca -->
+
+<script>
+const SECTIONS = {
+  centro:{cov:'sc-centro-cov',exp:'Miguel Alves',sub:[{l:'Contextualización',s:'sc-ctx'},{l:'Nuestros Estudiantes',s:'sc-est'},{l:'Alumnos ACNEAE',s:'sc-acneae'}]},
+  modulo:{cov:'sc-modulo-cov',exp:'Belén Santiago',sub:[{l:'El módulo',s:'sc-modulo'},{l:'Empresa de referencia',s:'sc-empresa'},{l:'Tutor de empresa',s:'sc-tutor'}]},
+  actividades:{cov:'sc-act-cov',exp:'José Antonio Sola',sub:[{l:'Motivación',s:'sc-motiv'},{l:'Actividad 1',s:'sc-act1'},{l:'Actividad 2',s:'sc-act2'}]},
+  fpdual:{cov:'sc-dual-cov',exp:'Marta Mombiela',sub:[{l:'¿Por qué la FP Dual?',s:'sc-porq'},{l:'Temporización',s:'sc-temp'}]},
+  evaluacion:{cov:'sc-eval-cov',exp:'Carmen Cosano',sub:[{l:'¿Cómo se evalúa?',s:'sc-eval'},{l:'Autoevaluación y coevaluación',s:'sc-autoeval'}]},
+  profesorado:{cov:'sc-prof-cov',exp:'Mª Ángeles Moreno',sub:[{l:'Motivación',s:'sc-pmotiv'},{l:'Desarrollo docente',s:'sc-des'}]},
+  conclusiones:{cov:'sc-conc-cov',exp:'Mª Ángeles Moreno',sub:[{l:'Conclusiones',s:'sc-conc'}]}
+};
+let curSec=null;
+function showSc(id){document.querySelectorAll('.sc').forEach(s=>s.classList.remove('active'));const e=document.getElementById(id);if(e)e.classList.add('active');}
+function setSubnav(k){
+  const sn=document.getElementById('subnav'),eb=document.getElementById('exp-badge'),en=document.getElementById('exp-name'),ca=document.getElementById('ca');
+  if(!k){sn.classList.add('hidden');eb.classList.add('hidden');ca.classList.remove('ws');return;}
+  const sec=SECTIONS[k];
+  if(!sec||!sec.sub.length){sn.classList.add('hidden');eb.classList.add('hidden');ca.classList.remove('ws');return;}
+  sn.innerHTML='';
+  sec.sub.forEach((item,i)=>{const d=document.createElement('div');d.className='si';d.textContent=item.l;d.dataset.s=item.s;d.onclick=()=>openSub(k,i);sn.appendChild(d);});
+  sn.classList.remove('hidden');ca.classList.add('ws');
+  en.textContent=sec.exp;eb.classList.remove('hidden');
+}
+function setNavActive(k){document.querySelectorAll('.ni').forEach(n=>n.classList.toggle('active',n.dataset.s===k));}
+function setSubActive(sid){document.querySelectorAll('.si').forEach(s=>s.classList.toggle('active',s.dataset.s===sid));}
+function goHome(){curSec=null;setNavActive(null);setSubnav(null);showSc('sh');}
+function openSection(k){curSec=k;setNavActive(k);setSubnav(k);showSc(SECTIONS[k].cov);setSubActive(null);}
+function openSub(k,i){const s=SECTIONS[k].sub[i].s;showSc(s);setSubActive(s);}
+function switchTab(i){document.querySelectorAll('.stt').forEach((t,j)=>t.classList.toggle('active',j===i));document.querySelectorAll('.stp').forEach((p,j)=>p.classList.toggle('active',j===i));}
+</script>
+</body>
+</html>
