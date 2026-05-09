@@ -26,20 +26,20 @@ html,body{width:100%;height:100%;font-family:'Barlow',sans-serif;background:var(
 #exp-badge{position:fixed;top:var(--nh);right:0;height:var(--sh);background:var(--red-dark);display:flex;align-items:center;padding:0 22px;z-index:1001;transition:opacity .25s;}
 #exp-badge.hidden{opacity:0;pointer-events:none;}
 #exp-name{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:var(--w);letter-spacing:.03em;}
-#ca{position:fixed;top:var(--nh);left:0;right:0;bottom:0;overflow:hidden;}
+#ca{position:fixed;top:var(--nh);left:0;right:0;bottom:0;overflow-y:auto;}
 #ca.ws{top:calc(var(--nh) + var(--sh));}
-.sc{position:absolute;inset:0;opacity:0;pointer-events:none;transition:opacity .3s ease;overflow-y:auto;}
-.sc.active{opacity:1;pointer-events:all;}
-/* Restore scrollbar only for sc */
-.sc{scrollbar-width:thin;scrollbar-color:var(--mg) transparent;}
-.sc::-webkit-scrollbar{display:block;width:6px;}
-.sc::-webkit-scrollbar-track{background:transparent;}
-.sc::-webkit-scrollbar-thumb{background:var(--mg);border-radius:3px;}
-.sc::-webkit-scrollbar-thumb:hover{background:var(--tl);}
-/* Permitir scroll: min-height en layouts, quitar overflow:hidden en columnas de contenido */
-.hl,.ctx,.acng,.modg,.empg,.tutg,.motl,.actl,.dwg,.teg,.evg,.aeg,.pml,.concl{height:auto!important;min-height:100%;}
-.stw{height:auto!important;min-height:100%;}
-.ctxl,.ctxr,.modl,.modr,.empl,.tutl,.tutr,.motc,.actc,.dwl,.dwr,.tel,.ter,.evl,.evr,.ael,.aer,.pmc,.concll{overflow:visible!important;}
+.sc{display:none;min-height:100%;}
+.sc.active{display:block;}
+/* Scrollbar for #ca */
+#ca{scrollbar-width:thin;scrollbar-color:var(--mg) transparent;}
+#ca::-webkit-scrollbar{display:block;width:6px;}
+#ca::-webkit-scrollbar-track{background:transparent;}
+#ca::-webkit-scrollbar-thumb{background:var(--mg);border-radius:3px;}
+#ca::-webkit-scrollbar-thumb:hover{background:var(--tl);}
+/* Quitar height fijo en layouts */
+.hl,.ctx,.acng,.modg,.empg,.tutg,.motl,.actl,.dwg,.teg,.evg,.aeg,.pml,.concl{height:auto;min-height:100vh;}
+.stw{height:auto;min-height:100vh;}
+.ctxl,.ctxr,.modl,.modr,.empl,.tutl,.tutr,.motc,.actc,.dwl,.dwr,.tel,.ter,.evl,.evr,.ael,.aer,.pmc,.concll{overflow:visible;}
 /* COVER */
 .cov{width:100%;height:100%;position:relative;display:flex;align-items:center;overflow:hidden;}
 .cbg{position:absolute;inset:0;background-size:cover;background-position:center;z-index:0;}
@@ -802,7 +802,12 @@ const SECTIONS = {
   conclusiones:{cov:'sc-conc-cov',exp:'Mª Ángeles Moreno',sub:[{l:'Conclusiones',s:'sc-conc'}]}
 };
 let curSec=null;
-function showSc(id){document.querySelectorAll('.sc').forEach(s=>s.classList.remove('active'));const e=document.getElementById(id);if(e)e.classList.add('active');}
+function showSc(id){
+  document.querySelectorAll('.sc').forEach(s=>s.classList.remove('active'));
+  const e=document.getElementById(id);
+  if(e) e.classList.add('active');
+  document.getElementById('ca').scrollTop=0;
+}
 function setSubnav(k){
   const sn=document.getElementById('subnav'),eb=document.getElementById('exp-badge'),en=document.getElementById('exp-name'),ca=document.getElementById('ca');
   if(!k){sn.classList.add('hidden');eb.classList.add('hidden');ca.classList.remove('ws');return;}
