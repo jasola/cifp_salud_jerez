@@ -93,7 +93,12 @@ html,body{width:100%;height:100%;font-family:'Barlow',sans-serif;background:var(
 .htl{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--tl);margin-bottom:10px;}
 .htc{display:flex;flex-wrap:wrap;gap:8px;}
 .hc{background:var(--lg);border:1px solid var(--mg);padding:7px 16px;font-size:15px;font-weight:600;color:var(--tm);font-family:'Barlow Condensed',sans-serif;letter-spacing:.04em;}
-/* CTX */
+/* Portadas: permitir scroll */
+.cov{width:100%;min-height:100%;position:relative;display:flex;align-items:center;}
+/* Desarrollo docente: permitir scroll */
+.desl{width:100%;min-height:100%;display:flex;flex-direction:column;background:var(--ow);}
+.desl > div:last-child{min-height:500px;}
+/* Contextualización: scroll en toda la página, no solo en columna */
 .ctx{display:grid;grid-template-columns:360px 1fr;min-height:100%;}
 .ctxl{background:var(--red);padding:34px 30px;display:flex;flex-direction:column;color:var(--w);}
 .ctxr{padding:28px 34px;background:var(--ow);display:flex;flex-direction:column;}
@@ -272,7 +277,7 @@ html,body{width:100%;height:100%;font-family:'Barlow',sans-serif;background:var(
 .desiw{flex:1;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:20px 60px;background:var(--w);}
 .desiw img{max-width:100%;max-height:100%;object-fit:contain;}
 /* CONCLUSIONES */
-.concl{display:grid;grid-template-columns:1fr 400px;height:100%;}
+.concl{display:grid;grid-template-columns:1fr 480px;height:100%;}
 .concll{padding:30px 44px;display:flex;flex-direction:column;overflow:hidden;background:var(--w);}
 .conclr{position:relative;overflow:hidden;}
 .conclr img{width:100%;height:100%;object-fit:cover;}
@@ -567,7 +572,7 @@ html,body{width:100%;height:100%;font-family:'Barlow',sans-serif;background:var(
     <div class="dwr">
       <div class="pt">FP Dual</div>
       <div class="ph" style="font-size:28px;margin-bottom:14px;">Distribución de horas</div>
-      <div class="nb2"><div class="nbt">Marco normativo del modelo</div><div class="nbtx">Articulado como <strong>FCT reforzada</strong> al amparo de la <strong>Orden 26/09/2025</strong> (BOJA nº 187 Complementario). El ciclo TES (RD 1397/2007) no aplica el esquema dual LO 3/2022/RD 659/2023, pero el resultado formativo para el alumnado es equivalente.</div></div>
+      <div class="nb2"><div class="nbt">Fundamento y marco normativo del modelo</div><div class="nbtx">La propuesta se articula como un modelo de formación compartida entre el CIFP Salud Jerez y la Base 061 EPES Jerez en el que el alumnado alterna sesiones en el centro con estancias en la empresa. Este modelo de alternancia real responde directamente al espíritu de la <strong>Ley Orgánica 3/2022, de 31 de marzo, de ordenación e integración de la Formación Profesional</strong>, y a su principal normativa de desarrollo, el Real Decreto 659/2023, de 18 de julio.<br><br>El ciclo TES se rige por el RD 1397/2007, anterior a la LO 3/2022. La <strong>Orden de 26 de septiembre de 2025</strong> (BOJA nº 187 Complementario) establece el régimen transitorio que habilita expresamente este modelo para títulos del marco anterior como el TES, <strong>sin conflicto con la LO 3/2022</strong>. El proyecto es implementable en el curso 25/26 sin esperar a la renovación curricular completa del título.</div></div>
       <div class="db"><div class="dbl"><strong>Módulo 0056 en centro</strong><span>164h (73%)</span></div><div class="dbt"><div class="dbf" style="width:73%"></div></div></div>
       <div class="db"><div class="dbl"><strong>Módulo 0056 en empresa</strong><span>60h (27%)</span></div><div class="dbt"><div class="dbf" style="width:27%"></div></div></div>
       <div class="db"><div class="dbl"><strong>CE innovadores en empresa</strong><span>38h prioritarias</span></div><div class="dbt"><div class="dbf" style="width:63%"></div></div></div>
@@ -771,8 +776,8 @@ html,body{width:100%;height:100%;font-family:'Barlow',sans-serif;background:var(
   <div class="concl">
     <div class="concll">
       <div class="pt">Conclusiones</div>
-      <div class="ph" style="font-size:32px;margin-bottom:16px;">Lo que hemos<br>demostrado</div>
-      <div class="ci"><div class="cb"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div><div class="ctx2"><strong>La implantación FP Dual en TES es viable</strong> desde el punto de vista normativo y organizativo, articulada bajo FCT reforzada al amparo de la Orden 26/09/2025 sin conflicto con LO 3/2022.</div></div>
+      <div class="ph" style="font-size:32px;margin-bottom:16px;">Nuestras<br>Conclusiones</div>
+      <div class="ci"><div class="cb"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div><div class="ctx2"><strong>La implantación FP Dual en TES es viable normativa y organizativamente.</strong> El modelo se articula al amparo de la Orden 26/09/2025 (BOJA nº 187 Complementario) como régimen transitorio para títulos del marco anterior, en plena coherencia con el espíritu de la LO 3/2022 y sin ningún conflicto normativo.</div></div>
       <div class="ci"><div class="cb"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div><div class="ctx2"><strong>Los CE innovadores (CE 3d y CE 4b) solo pueden evaluarse con plenas garantías en empresa.</strong> Dosímetros reales, trajes NBQ nivel B/C y unidades de descontaminación son condición indispensable, no complemento opcional.</div></div>
       <div class="ci"><div class="cb"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div><div class="ctx2"><strong>La distribución CIFP–empresa responde a una lógica pedagógica deliberada:</strong> el centro construye bases conceptuales mediante simulación controlada; la empresa las consolida y transfiere al contexto profesional real.</div></div>
       <div class="ci"><div class="cb"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div><div class="ctx2"><strong>El análisis Bloom justifica la apuesta metodológica:</strong> RA y CE mayoritariamente en N3 (Aplicar) y N4 (Analizar) hacen de la simulación, los casos clínicos reales y el aprendizaje en entorno auténtico la respuesta coherente.</div></div>
