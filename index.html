@@ -112,14 +112,14 @@ html,body{width:100%;height:100%;font-family:'Barlow',sans-serif;background:var(
 .cni{display:flex;align-items:center;gap:10px;font-size:14px;color:rgba(255,255,255,.88);font-weight:500;}
 .cni::before{content:'';width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.6);flex-shrink:0;}
 /* STUDENTS */
-.stw{width:100%;height:100%;display:flex;flex-direction:column;}
+.stw{width:100%;display:flex;flex-direction:column;}
 .sttabs{display:flex;background:var(--red);flex-shrink:0;justify-content:flex-start;}
 .stt{padding:14px 28px;text-align:left;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.65);border-bottom:3px solid transparent;transition:color .2s,border-color .2s;}
 .stt.active{color:var(--w);border-bottom-color:var(--w);background:rgba(255,255,255,.08);}
 .stt:hover{color:var(--w);}
-.stcont{flex:1;position:relative;overflow:hidden;}
-.stp{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;opacity:0;pointer-events:none;transition:opacity .25s;}
-.stp.active{opacity:1;pointer-events:all;}
+.stcont{position:relative;}
+.stp{display:none;grid-template-columns:1fr 1fr;min-height:calc(100vh - var(--nh) - var(--sh) - 52px);}
+.stp.active{display:grid;}
 .stis{position:relative;overflow:hidden;background:var(--ow);}
 .stis img{width:100%;height:100%;object-fit:contain;object-position:center;padding:20px;}
 .stis2{padding:36px 42px;display:flex;flex-direction:column;justify-content:center;background:var(--w);}
