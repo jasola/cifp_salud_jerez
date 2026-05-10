@@ -51,9 +51,10 @@ html,body{width:100%;height:100%;font-family:'Barlow',sans-serif;background:var(
 .ctitle{font-family:'Barlow Condensed',sans-serif;font-size:72px;font-weight:800;line-height:.95;color:var(--red);text-transform:uppercase;margin-bottom:18px;}
 .ctitle span{color:var(--red);}
 .csub{font-size:20px;font-weight:300;color:var(--tm);line-height:1.5;margin-bottom:28px;max-width:440px;}
-.cexp{display:flex;align-items:center;gap:14px;}
-.cdot{width:10px;height:10px;background:var(--red);border-radius:50%;}
-.cname{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;letter-spacing:.05em;color:var(--tm);text-transform:uppercase;}
+.cexp{display:flex;align-items:center;}
+.cname{display:inline-flex;align-items:center;gap:10px;background:var(--red);padding:8px 18px 8px 12px;font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;letter-spacing:.08em;color:var(--w);text-transform:uppercase;}
+.cname::before{content:'';width:3px;height:22px;background:rgba(255,255,255,.5);flex-shrink:0;}
+.cdot{display:none;}
 /* UTILS */
 .pt{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:6px;}
 .ptw{color:rgba(255,255,255,.65);}
@@ -94,7 +95,8 @@ html,body{width:100%;height:100%;font-family:'Barlow',sans-serif;background:var(
 .hmi span{color:var(--tm);font-size:15px;}
 .htl{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--tl);margin-bottom:10px;}
 .htc{display:flex;flex-wrap:wrap;gap:8px;}
-.hc{background:var(--lg);border:1px solid var(--mg);padding:7px 16px;font-size:15px;font-weight:600;color:var(--tm);font-family:'Barlow Condensed',sans-serif;letter-spacing:.04em;}
+.hc{background:var(--red);padding:8px 18px;font-size:16px;font-weight:700;color:var(--w);font-family:'Barlow Condensed',sans-serif;letter-spacing:.06em;text-transform:uppercase;border-left:3px solid rgba(255,255,255,.35);transition:background .2s;}
+.hc:hover{background:var(--red-dark);}
 /* Portadas: permitir scroll */
 .cov{width:100%;min-height:100%;position:relative;display:flex;align-items:center;}
 /* Desarrollo docente: permitir scroll */
