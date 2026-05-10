@@ -277,11 +277,11 @@ html,body{width:100%;height:100%;font-family:'Barlow',sans-serif;background:var(
 .desht{font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:800;color:var(--w);text-transform:uppercase;letter-spacing:.03em;}
 .deshs{font-size:15px;color:rgba(255,255,255,.82);}
 /* DESARROLLO DOCENTE GRID */
-.des-grid{flex:1;display:grid;grid-template-columns:1fr 200px 1fr;grid-template-rows:1fr 1fr 1fr;gap:3px;background:#111;}
+.des-grid{flex:1;display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:1fr 1fr 1fr;gap:3px;background:#111;}
 .des-card{position:relative;overflow:hidden;cursor:default;}
 .des-card.top-left{grid-column:1;grid-row:1;}
 .des-card.top-right{grid-column:3;grid-row:1;}
-.des-center{grid-column:2;grid-row:1/4;background:#1A1A2E;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;gap:16px;}
+.des-center{grid-column:2;grid-row:1/4;background:var(--ow);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;gap:20px;}
 .des-card.mid-left{grid-column:1;grid-row:2;}
 .des-card.mid-right{grid-column:3;grid-row:2;}
 .des-card.bot-left{grid-column:1;grid-row:3;}
@@ -301,7 +301,7 @@ html,body{width:100%;height:100%;font-family:'Barlow',sans-serif;background:var(
 .des-text2{font-size:13px;color:rgba(255,255,255,.85);line-height:1.5;max-height:0;overflow:hidden;transition:max-height .4s ease,opacity .4s ease;opacity:0;}
 .des-card:hover .des-text2{max-height:80px;opacity:1;}
 /* Botón central — rueda SVG */
-.des-wheel{width:160px;height:160px;flex-shrink:0;}
+.des-wheel{width:min(200px,80%);height:auto;flex-shrink:0;}
 .des-center-logo{display:flex;flex-direction:column;align-items:center;gap:6px;}
 .des-center-logo img{width:80px;}
 .des-center-title{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:800;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:.08em;text-align:center;line-height:1.4;}
@@ -902,40 +902,50 @@ html,body{width:100%;height:100%;font-family:'Barlow',sans-serif;background:var(
 
       <!-- CENTRO con rueda SVG -->
       <div class="des-center">
-        <svg class="des-wheel" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
-          <!-- Segmentos de la rueda (7 sectores) -->
-          <!-- Cada sector = 360/7 ≈ 51.43° -->
-          <!-- Sector 1: 0° a 51.43° (parte superior derecha) -->
-          <path d="M80,80 L80,12 A68,68 0 0,1 144.6,46.5 Z" fill="#C2002F" opacity="0.9"/>
-          <path d="M80,80 L144.6,46.5 A68,68 0 0,1 144.6,113.5 Z" fill="#C2002F" opacity="0.75"/>
-          <path d="M80,80 L144.6,113.5 A68,68 0 0,1 80,148 Z" fill="#C2002F" opacity="0.9"/>
-          <path d="M80,80 L80,148 A68,68 0 0,1 15.4,113.5 Z" fill="#C2002F" opacity="0.75"/>
-          <path d="M80,80 L15.4,113.5 A68,68 0 0,1 15.4,46.5 Z" fill="#C2002F" opacity="0.9"/>
-          <path d="M80,80 L15.4,46.5 A68,68 0 0,1 80,12 Z" fill="#C2002F" opacity="0.75"/>
-          <!-- Gaps entre sectores -->
-          <circle cx="80" cy="80" r="68" fill="none" stroke="#1A1A2E" stroke-width="2"/>
-          <!-- Líneas separadoras -->
-          <line x1="80" y1="80" x2="80" y2="12" stroke="#1A1A2E" stroke-width="2"/>
-          <line x1="80" y1="80" x2="144.6" y2="46.5" stroke="#1A1A2E" stroke-width="2"/>
-          <line x1="80" y1="80" x2="144.6" y2="113.5" stroke="#1A1A2E" stroke-width="2"/>
-          <line x1="80" y1="80" x2="80" y2="148" stroke="#1A1A2E" stroke-width="2"/>
-          <line x1="80" y1="80" x2="15.4" y2="113.5" stroke="#1A1A2E" stroke-width="2"/>
-          <line x1="80" y1="80" x2="15.4" y2="46.5" stroke="#1A1A2E" stroke-width="2"/>
+        <svg class="des-wheel" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <clipPath id="logoClip"><circle cx="100" cy="100" r="46"/></clipPath>
+          </defs>
+          <!-- 7 segmentos: 360/7 ≈ 51.43° cada uno, empezando desde arriba -->
+          <!-- S7: 270°→321.4° (arriba izquierda) -->
+          <path d="M100,100 L100,18 A82,82 0 0,0 47.6,34.6 Z" fill="#8B0021"/>
+          <!-- S6: 218.6°→270° (izquierda) -->
+          <path d="M100,100 L47.6,34.6 A82,82 0 0,0 18,100 Z" fill="#C2002F"/>
+          <!-- S5: 167.1°→218.6° (abajo izquierda) -->
+          <path d="M100,100 L18,100 A82,82 0 0,0 47.6,165.4 Z" fill="#8B0021"/>
+          <!-- S4: 115.7°→167.1° (abajo) -->
+          <path d="M100,100 L47.6,165.4 A82,82 0 0,0 100,182 Z" fill="#C2002F"/>
+          <!-- S3: 64.3°→115.7° (abajo derecha) -->
+          <path d="M100,100 L100,182 A82,82 0 0,0 152.4,165.4 Z" fill="#8B0021"/>
+          <!-- S2: 12.86°→64.3° (derecha) -->
+          <path d="M100,100 L152.4,165.4 A82,82 0 0,0 182,100 Z" fill="#C2002F"/>
+          <!-- S1: 321.4°→12.86° (arriba derecha) -->
+          <path d="M100,100 L182,100 A82,82 0 0,0 100,18 Z" fill="#8B0021"/>
+          <!-- Separadores blancos -->
+          <line x1="100" y1="100" x2="100" y2="18" stroke="white" stroke-width="2.5"/>
+          <line x1="100" y1="100" x2="47.6" y2="34.6" stroke="white" stroke-width="2.5"/>
+          <line x1="100" y1="100" x2="18" y2="100" stroke="white" stroke-width="2.5"/>
+          <line x1="100" y1="100" x2="47.6" y2="165.4" stroke="white" stroke-width="2.5"/>
+          <line x1="100" y1="100" x2="100" y2="182" stroke="white" stroke-width="2.5"/>
+          <line x1="100" y1="100" x2="152.4" y2="165.4" stroke="white" stroke-width="2.5"/>
+          <line x1="100" y1="100" x2="182" y2="100" stroke="white" stroke-width="2.5"/>
           <!-- Números en cada segmento -->
-          <text x="100" y="44" fill="white" font-family="'Barlow Condensed',sans-serif" font-size="13" font-weight="800" text-anchor="middle">1</text>
-          <text x="128" y="84" fill="white" font-family="'Barlow Condensed',sans-serif" font-size="13" font-weight="800" text-anchor="middle">2</text>
-          <text x="112" y="124" fill="white" font-family="'Barlow Condensed',sans-serif" font-size="13" font-weight="800" text-anchor="middle">3</text>
-          <text x="80" y="140" fill="white" font-family="'Barlow Condensed',sans-serif" font-size="13" font-weight="800" text-anchor="middle">4</text>
-          <text x="48" y="124" fill="white" font-family="'Barlow Condensed',sans-serif" font-size="13" font-weight="800" text-anchor="middle">5</text>
-          <text x="32" y="84" fill="white" font-family="'Barlow Condensed',sans-serif" font-size="13" font-weight="800" text-anchor="middle">6</text>
-          <text x="60" y="44" fill="white" font-family="'Barlow Condensed',sans-serif" font-size="13" font-weight="800" text-anchor="middle">7</text>
+          <text x="148" y="68" fill="white" font-family="'Barlow Condensed',sans-serif" font-size="18" font-weight="800" text-anchor="middle">1</text>
+          <text x="166" y="132" fill="white" font-family="'Barlow Condensed',sans-serif" font-size="18" font-weight="800" text-anchor="middle">2</text>
+          <text x="128" y="170" fill="white" font-family="'Barlow Condensed',sans-serif" font-size="18" font-weight="800" text-anchor="middle">3</text>
+          <text x="72" y="170" fill="white" font-family="'Barlow Condensed',sans-serif" font-size="18" font-weight="800" text-anchor="middle">4</text>
+          <text x="34" y="132" fill="white" font-family="'Barlow Condensed',sans-serif" font-size="18" font-weight="800" text-anchor="middle">5</text>
+          <text x="52" y="68" fill="white" font-family="'Barlow Condensed',sans-serif" font-size="18" font-weight="800" text-anchor="middle">6</text>
+          <text x="100" y="36" fill="white" font-family="'Barlow Condensed',sans-serif" font-size="18" font-weight="800" text-anchor="middle">7</text>
+          <!-- Sombra círculo interior -->
+          <circle cx="100" cy="100" r="47" fill="rgba(0,0,0,0.15)"/>
           <!-- Círculo interior blanco -->
-          <circle cx="80" cy="80" r="38" fill="white"/>
+          <circle cx="100" cy="100" r="46" fill="white"/>
+          <!-- Logo dentro del círculo -->
+          <image href="images/logo1.png" x="56" y="60" width="88" height="80" clip-path="url(#logoClip)" preserveAspectRatio="xMidYMid meet"/>
         </svg>
-        <div class="des-center-logo">
-          <img src="images/logo1.png" alt="CIFP Salud Jerez">
-          <div class="des-center-title">Desarrollo<br>Profesional<br>y Mejora Continua</div>
-        </div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:800;color:var(--red);text-transform:uppercase;letter-spacing:.06em;text-align:center;line-height:1.4;">Desarrollo Profesional<br>y Mejora Continua</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:600;color:var(--tl);text-transform:uppercase;letter-spacing:.08em;text-align:center;">CIFP Salud Jerez · Dpto. Sanidad</div>
       </div>
 
       <!-- E6 izquierda -->
