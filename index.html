@@ -277,22 +277,27 @@ html,body{width:100%;height:100%;font-family:'Barlow',sans-serif;background:var(
 .desht{font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:800;color:var(--w);text-transform:uppercase;letter-spacing:.03em;}
 .deshs{font-size:15px;color:rgba(255,255,255,.82);}
 /* DESARROLLO DOCENTE GRID */
-.des-grid{flex:1;padding:16px 24px;display:grid;grid-template-columns:1fr 150px 1fr;grid-template-rows:1fr 1fr 1fr;gap:12px;background:var(--ow);}
-.des-card{background:var(--w);border-top:3px solid var(--red);padding:10px 12px;display:flex;flex-direction:column;gap:5px;position:relative;}
+.des-grid{flex:1;padding:16px 24px;display:grid;grid-template-columns:1fr 180px 1fr;grid-template-rows:1fr 1fr 1fr;gap:10px;background:var(--ow);}
+.des-card{background:var(--w);border-left:5px solid var(--red);padding:14px 16px 14px 14px;display:flex;flex-direction:row;gap:12px;position:relative;align-items:flex-start;}
 .des-card.top-left{grid-column:1;grid-row:1;}
 .des-card.top-right{grid-column:3;grid-row:1;}
-.des-center{grid-column:2;grid-row:1/4;background:var(--w);border:3px solid var(--red);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px;box-shadow:0 0 0 5px rgba(194,0,47,.08);}
+.des-center{grid-column:2;grid-row:1/4;background:var(--w);border:3px solid var(--red);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px;box-shadow:0 0 0 5px rgba(194,0,47,.08);}
 .des-card.mid-right{grid-column:3;grid-row:2;}
 .des-card.bot-center{grid-column:2;grid-row:3;}
 .des-card.mid-left{grid-column:1;grid-row:2;}
 .des-card.bot-left{grid-column:1;grid-row:3;}
 .des-card.bot-right2{grid-column:3;grid-row:3;}
-.des-img{width:100%;height:72px;overflow:hidden;margin-bottom:3px;}
-.des-img img{width:100%;height:100%;object-fit:cover;object-position:center top;}
-.des-card.bot-center .des-img{height:50px;}
-.des-num{position:absolute;top:8px;right:8px;width:22px;height:22px;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:800;color:var(--w);}
-.des-title{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:var(--red);text-transform:uppercase;letter-spacing:.03em;line-height:1.2;padding-right:26px;}
-.des-text{font-size:11.5px;color:var(--tm);line-height:1.4;}
+/* Imagen pequeña lateral */
+.des-img{width:64px;height:64px;flex-shrink:0;overflow:hidden;border-radius:4px;}
+.des-img img{width:100%;height:100%;object-fit:cover;object-position:center;}
+.des-card.bot-center{flex-direction:column;padding:12px 14px;}
+.des-card.bot-center .des-img{width:100%;height:48px;margin-bottom:6px;}
+.des-card.bot-center .des-img img{object-position:center 30%;}
+/* Contenido */
+.des-body{flex:1;display:flex;flex-direction:column;gap:4px;}
+.des-num{width:28px;height:28px;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:800;color:var(--w);flex-shrink:0;}
+.des-title{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;color:var(--red);text-transform:uppercase;letter-spacing:.03em;line-height:1.2;}
+.des-text{font-size:13px;color:var(--tm);line-height:1.5;}
 /* Radio buttons autoevaluación/coevaluación */
 .rb{display:flex;align-items:center;justify-content:center;cursor:pointer;}
 .rb input[type=radio]{display:none;}
@@ -865,18 +870,22 @@ html,body{width:100%;height:100%;font-family:'Barlow',sans-serif;background:var(
 
       <!-- E7 arriba izquierda -->
       <div class="des-card top-left">
-        <div class="des-img"><img src="images/7.png" alt="Reconocimiento"></div>
         <div class="des-num">7</div>
-        <div class="des-title">Reconocimiento y visibilidad profesional</div>
-        <div class="des-text">Publicación de proyectos e innovaciones en la web del centro, redes profesionales y jornadas de FP de la Junta de Andalucía.</div>
+        <div class="des-body">
+          <div class="des-title">Reconocimiento y visibilidad profesional</div>
+          <div class="des-text">Publicación de proyectos e innovaciones en la web del centro, redes profesionales y jornadas de FP de la Junta de Andalucía.</div>
+        </div>
+        <div class="des-img"><img src="images/7.png" alt="Reconocimiento"></div>
       </div>
 
       <!-- E1 arriba derecha -->
       <div class="des-card top-right">
-        <div class="des-img"><img src="images/1.png" alt="CAP"></div>
         <div class="des-num">1</div>
-        <div class="des-title">Comunidades de Aprendizaje Profesional (CAP)</div>
-        <div class="des-text">Reuniones quincenales del claustro para compartir materiales, casos clínicos reales y metodologías innovadoras.</div>
+        <div class="des-body">
+          <div class="des-title">Comunidades de Aprendizaje Profesional (CAP)</div>
+          <div class="des-text">Reuniones quincenales del claustro para compartir materiales, casos clínicos reales y metodologías innovadoras.</div>
+        </div>
+        <div class="des-img"><img src="images/1.png" alt="CAP"></div>
       </div>
 
       <!-- CENTRO -->
@@ -887,42 +896,54 @@ html,body{width:100%;height:100%;font-family:'Barlow',sans-serif;background:var(
 
       <!-- E6 izquierda -->
       <div class="des-card mid-left">
-        <div class="des-img"><img src="images/6.png" alt="Innovación"></div>
         <div class="des-num">6</div>
-        <div class="des-title">Grupos de innovación educativa</div>
-        <div class="des-text">Equipos de trabajo interdisciplinar centrados en diseño de materiales con simulación de alta fidelidad y gamificación.</div>
+        <div class="des-body">
+          <div class="des-title">Grupos de innovación educativa</div>
+          <div class="des-text">Equipos de trabajo interdisciplinar centrados en diseño de materiales con simulación de alta fidelidad y gamificación.</div>
+        </div>
+        <div class="des-img"><img src="images/6.png" alt="Innovación"></div>
       </div>
 
       <!-- E2 derecha -->
       <div class="des-card mid-right">
-        <div class="des-img"><img src="images/2.png" alt="EPES-061"></div>
         <div class="des-num">2</div>
-        <div class="des-title">Formación continua con EPES-061</div>
-        <div class="des-text">Acuerdos de colaboración para que el profesorado actualice competencias clínicas participando en simulacros y jornadas asistenciales reales.</div>
+        <div class="des-body">
+          <div class="des-title">Formación continua con EPES-061</div>
+          <div class="des-text">Acuerdos de colaboración para que el profesorado actualice competencias clínicas participando en simulacros y jornadas asistenciales reales.</div>
+        </div>
+        <div class="des-img"><img src="images/2.png" alt="EPES-061"></div>
       </div>
 
       <!-- E5 abajo izquierda -->
       <div class="des-card bot-left">
-        <div class="des-img"><img src="images/5.png" alt="Mentorización"></div>
         <div class="des-num">5</div>
-        <div class="des-title">Plan de acogida y mentorización</div>
-        <div class="des-text">Protocolo de acompañamiento para profesorado nuevo o interino, con asignación de un mentor del claustro definitivo.</div>
+        <div class="des-body">
+          <div class="des-title">Plan de acogida y mentorización</div>
+          <div class="des-text">Protocolo de acompañamiento para profesorado nuevo o interino, con asignación de un mentor del claustro definitivo.</div>
+        </div>
+        <div class="des-img"><img src="images/5.png" alt="Mentorización"></div>
       </div>
 
       <!-- E4 abajo centro -->
       <div class="des-card bot-center">
-        <div class="des-img"><img src="images/4.png" alt="Erasmus+"></div>
-        <div class="des-num">4</div>
-        <div class="des-title">Erasmus+ VET</div>
-        <div class="des-text">Movilidad formativa del profesorado en centros europeos de FP sanitaria, actualización de metodologías y protocolos asistenciales internacionales.</div>
+        <div style="display:flex;gap:10px;align-items:flex-start;">
+          <div class="des-num">4</div>
+          <div class="des-body">
+            <div class="des-title">Erasmus+ VET</div>
+            <div class="des-text">Movilidad formativa del profesorado en centros europeos de FP sanitaria, actualización de metodologías y protocolos asistenciales internacionales.</div>
+          </div>
+        </div>
+        <div class="des-img" style="width:100%;height:44px;margin-top:6px;"><img src="images/4.png" alt="Erasmus+"></div>
       </div>
 
       <!-- E3 abajo derecha -->
       <div class="des-card bot-right2">
-        <div class="des-img"><img src="images/3.png" alt="eTwinning"></div>
         <div class="des-num">3</div>
-        <div class="des-title">Proyectos eTwinning</div>
-        <div class="des-text">Participación en red europea de centros educativos para proyectos colaborativos en entornos digitales, posibilita intercambio de buenas prácticas.</div>
+        <div class="des-body">
+          <div class="des-title">Proyectos eTwinning</div>
+          <div class="des-text">Participación en red europea de centros educativos para proyectos colaborativos en entornos digitales, posibilita intercambio de buenas prácticas.</div>
+        </div>
+        <div class="des-img"><img src="images/3.png" alt="eTwinning"></div>
       </div>
 
     </div>
