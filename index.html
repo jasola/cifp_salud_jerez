@@ -281,8 +281,9 @@ html,body{width:100%;height:100%;font-family:'Barlow',sans-serif;background:var(
 .des-card{position:relative;overflow:hidden;cursor:default;}
 .des-card.top-left{grid-column:1;grid-row:1;}
 .des-card.top-right{grid-column:3;grid-row:1;}
-.des-center{grid-column:2;grid-row:1/4;background:var(--ow);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px 8px;gap:10px;overflow:hidden;}
-.des-wheel{width:calc(100% - 16px);max-width:100%;height:auto;flex-shrink:0;}.des-card.mid-left{grid-column:1;grid-row:2;}
+.des-center{grid-column:2;grid-row:1/4;background:var(--ow);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;gap:12px;overflow:hidden;}
+.des-wheel{flex-shrink:0;}
+.des-card.mid-left{grid-column:1;grid-row:2;}
 .des-card.mid-right{grid-column:3;grid-row:2;}
 .des-card.bot-left{grid-column:1;grid-row:3;}
 .des-card.bot-center{grid-column:2;grid-row:3;}
@@ -1044,6 +1045,7 @@ function showSc(id){
   const e=document.getElementById(id);
   if(e){
     e.classList.add('active');
+    if(id==='sc-des') setTimeout(sizeWheel, 50);
     // Números animados
     e.querySelectorAll('[data-count]').forEach(el=>{
       const target=+el.dataset.count;
@@ -1074,6 +1076,21 @@ function goHome(){curSec=null;setNavActive(null);setSubnav(null);showSc('sh');}
 function openSection(k){curSec=k;setNavActive(k);setSubnav(k);showSc(SECTIONS[k].cov);setSubActive(null);}
 function openSub(k,i){const s=SECTIONS[k].sub[i].s;showSc(s);setSubActive(s);}
 function switchTab(i){document.querySelectorAll('.stt').forEach((t,j)=>t.classList.toggle('active',j===i));document.querySelectorAll('.stp').forEach((p,j)=>p.classList.toggle('active',j===i));}
+
+function sizeWheel(){
+  const center=document.querySelector('.des-center');
+  const wheel=document.querySelector('.des-wheel');
+  if(!center||!wheel)return;
+  const children=[...center.children].filter(c=>!c.classList.contains('des-wheel'));
+  const textH=children.reduce((a,c)=>a+c.offsetHeight,0)+(children.length*12)+40;
+  const availH=center.offsetHeight-textH;
+  const availW=center.offsetWidth-40;
+  const size=Math.max(80,Math.min(availH,availW));
+  wheel.style.width=size+'px';
+  wheel.style.height=size+'px';
+}
+window.addEventListener('resize',sizeWheel);
+setTimeout(sizeWheel,200);
 </script>
 </body>
 </html>
