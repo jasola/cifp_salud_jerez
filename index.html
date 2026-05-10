@@ -281,8 +281,8 @@ html,body{width:100%;height:100%;font-family:'Barlow',sans-serif;background:var(
 .des-card{position:relative;overflow:hidden;cursor:default;}
 .des-card.top-left{grid-column:1;grid-row:1;}
 .des-card.top-right{grid-column:3;grid-row:1;}
-.des-center{grid-column:2;grid-row:1/4;background:var(--ow);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;gap:12px;}
-.des-card.mid-left{grid-column:1;grid-row:2;}
+.des-center{grid-column:2;grid-row:1/4;background:var(--ow);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px 8px;gap:10px;overflow:hidden;}
+.des-wheel{width:calc(100% - 16px);max-width:100%;height:auto;flex-shrink:0;}.des-card.mid-left{grid-column:1;grid-row:2;}
 .des-card.mid-right{grid-column:3;grid-row:2;}
 .des-card.bot-left{grid-column:1;grid-row:3;}
 .des-card.bot-center{grid-column:2;grid-row:3;}
@@ -300,11 +300,6 @@ html,body{width:100%;height:100%;font-family:'Barlow',sans-serif;background:var(
 .des-title2{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:800;color:var(--w);text-transform:uppercase;letter-spacing:.04em;line-height:1.2;margin-bottom:6px;}
 .des-text2{font-size:13px;color:rgba(255,255,255,.85);line-height:1.5;max-height:0;overflow:hidden;transition:max-height .4s ease,opacity .4s ease;opacity:0;}
 .des-card:hover .des-text2{max-height:80px;opacity:1;}
-/* Botón central — rueda SVG */
-.des-wheel{width:min(260px,90%);height:auto;flex-shrink:0;}
-.des-center-logo{display:flex;flex-direction:column;align-items:center;gap:6px;}
-.des-center-logo img{width:80px;}
-.des-center-title{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:800;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:.08em;text-align:center;line-height:1.4;}
 /* Bot-center especial */
 .des-card.bot-center .des-title2{font-size:15px;}
 .des-card.bot-center .des-text2{font-size:12px;}
