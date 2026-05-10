@@ -277,17 +277,19 @@ html,body{width:100%;height:100%;font-family:'Barlow',sans-serif;background:var(
 .desht{font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:800;color:var(--w);text-transform:uppercase;letter-spacing:.03em;}
 .deshs{font-size:15px;color:rgba(255,255,255,.82);}
 /* DESARROLLO DOCENTE GRID */
-.des-grid{flex:1;display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:1fr 1fr 1fr;gap:3px;background:#111;}
+.des-grid{flex:1;display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:1fr 1fr 1fr 1fr;gap:3px;background:#111;}
 .des-card{position:relative;overflow:hidden;cursor:default;}
-.des-card.top-left{grid-column:1;grid-row:1;}
-.des-card.top-right{grid-column:3;grid-row:1;}
-.des-center{grid-column:2;grid-row:1/4;background:var(--ow);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;gap:12px;overflow:hidden;}
+.des-center{grid-column:2;grid-row:1/5;background:var(--ow);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;gap:14px;overflow:hidden;}
 .des-wheel{flex-shrink:0;}
-.des-card.mid-left{grid-column:1;grid-row:2;}
-.des-card.mid-right{grid-column:3;grid-row:2;}
-.des-card.bot-left{grid-column:1;grid-row:3;}
-.des-card.bot-center{grid-column:2;grid-row:3;}
-.des-card.bot-right2{grid-column:3;grid-row:3;}
+/* Izquierda: filas 1-4 */
+.des-c7{grid-column:1;grid-row:1;}
+.des-c6{grid-column:1;grid-row:2;}
+.des-c5{grid-column:1;grid-row:3;}
+.des-c4{grid-column:1;grid-row:4;}
+/* Derecha: filas 1-3 (solo 3 estrategias) */
+.des-c1{grid-column:3;grid-row:1;}
+.des-c2{grid-column:3;grid-row:2;}
+.des-c3{grid-column:3;grid-row:3;}
 /* Imagen de fondo */
 .des-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .5s ease;}
 .des-card:hover .des-bg{transform:scale(1.06);}
@@ -874,26 +876,32 @@ html,body{width:100%;height:100%;font-family:'Barlow',sans-serif;background:var(
     <div class="desh"><div><div class="desht">Plan Estratégico de Desarrollo Docente</div><div class="deshs">CIFP Salud Jerez — Departamento de Sanidad · 7 estrategias de mejora continua</div></div></div>
     <div class="des-grid">
 
-      <!-- E7 arriba izquierda -->
-      <div class="des-card top-left">
+      <!-- E7: col izq fila 1 -->
+      <div class="des-card des-c7">
         <div class="des-bg" style="background-image:url('images/7.png')"></div>
         <div class="des-ol"></div>
-        <div class="des-cc">
-          <div class="des-badge">7</div>
-          <div class="des-title2">Reconocimiento y visibilidad profesional</div>
-          <div class="des-text2">Publicación de proyectos e innovaciones en la web del centro, redes profesionales y jornadas de FP de la Junta de Andalucía.</div>
-        </div>
+        <div class="des-cc"><div class="des-badge">7</div><div class="des-title2">Reconocimiento y visibilidad profesional</div><div class="des-text2">Publicación de proyectos e innovaciones en la web del centro, redes profesionales y jornadas de FP de la Junta de Andalucía.</div></div>
       </div>
 
-      <!-- E1 arriba derecha -->
-      <div class="des-card top-right">
-        <div class="des-bg" style="background-image:url('images/1.png')"></div>
+      <!-- E6: col izq fila 2 -->
+      <div class="des-card des-c6">
+        <div class="des-bg" style="background-image:url('images/6.png')"></div>
         <div class="des-ol"></div>
-        <div class="des-cc">
-          <div class="des-badge">1</div>
-          <div class="des-title2">Comunidades de Aprendizaje Profesional (CAP)</div>
-          <div class="des-text2">Reuniones quincenales del claustro para compartir materiales, casos clínicos reales y metodologías innovadoras.</div>
-        </div>
+        <div class="des-cc"><div class="des-badge">6</div><div class="des-title2">Grupos de innovación educativa</div><div class="des-text2">Equipos de trabajo interdisciplinar centrados en diseño de materiales con simulación de alta fidelidad y gamificación.</div></div>
+      </div>
+
+      <!-- E5: col izq fila 3 -->
+      <div class="des-card des-c5">
+        <div class="des-bg" style="background-image:url('images/5.png')"></div>
+        <div class="des-ol"></div>
+        <div class="des-cc"><div class="des-badge">5</div><div class="des-title2">Plan de acogida y mentorización</div><div class="des-text2">Protocolo de acompañamiento para profesorado nuevo o interino, con asignación de un mentor del claustro definitivo.</div></div>
+      </div>
+
+      <!-- E4: col izq fila 4 -->
+      <div class="des-card des-c4">
+        <div class="des-bg" style="background-image:url('images/4.png');background-position:center 30%;"></div>
+        <div class="des-ol"></div>
+        <div class="des-cc"><div class="des-badge">4</div><div class="des-title2">Erasmus+ VET</div><div class="des-text2">Movilidad formativa del profesorado en centros europeos de FP sanitaria, actualización de metodologías y protocolos asistenciales internacionales.</div></div>
       </div>
 
       <!-- CENTRO con rueda SVG -->
@@ -901,25 +909,14 @@ html,body{width:100%;height:100%;font-family:'Barlow',sans-serif;background:var(
         <div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;color:var(--red);text-transform:uppercase;letter-spacing:.06em;text-align:center;line-height:1.3;">Desarrollo Profesional<br>y Mejora Continua</div>
         <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;color:var(--tl);text-transform:uppercase;letter-spacing:.08em;text-align:center;">CIFP Salud Jerez · Dpto. Sanidad</div>
         <svg class="des-wheel" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <clipPath id="logoClip"><circle cx="100" cy="100" r="46"/></clipPath>
-          </defs>
-          <!-- 7 segmentos: 360/7 ≈ 51.43° cada uno, empezando desde arriba -->
-          <!-- S7: 270°→321.4° (arriba izquierda) -->
+          <defs><clipPath id="logoClip"><circle cx="100" cy="100" r="46"/></clipPath></defs>
           <path d="M100,100 L100,18 A82,82 0 0,0 47.6,34.6 Z" fill="#8B0021"/>
-          <!-- S6: 218.6°→270° (izquierda) -->
           <path d="M100,100 L47.6,34.6 A82,82 0 0,0 18,100 Z" fill="#C2002F"/>
-          <!-- S5: 167.1°→218.6° (abajo izquierda) -->
           <path d="M100,100 L18,100 A82,82 0 0,0 47.6,165.4 Z" fill="#8B0021"/>
-          <!-- S4: 115.7°→167.1° (abajo) -->
           <path d="M100,100 L47.6,165.4 A82,82 0 0,0 100,182 Z" fill="#C2002F"/>
-          <!-- S3: 64.3°→115.7° (abajo derecha) -->
           <path d="M100,100 L100,182 A82,82 0 0,0 152.4,165.4 Z" fill="#8B0021"/>
-          <!-- S2: 12.86°→64.3° (derecha) -->
           <path d="M100,100 L152.4,165.4 A82,82 0 0,0 182,100 Z" fill="#C2002F"/>
-          <!-- S1: 321.4°→12.86° (arriba derecha) -->
           <path d="M100,100 L182,100 A82,82 0 0,0 100,18 Z" fill="#8B0021"/>
-          <!-- Separadores blancos -->
           <line x1="100" y1="100" x2="100" y2="18" stroke="white" stroke-width="2.5"/>
           <line x1="100" y1="100" x2="47.6" y2="34.6" stroke="white" stroke-width="2.5"/>
           <line x1="100" y1="100" x2="18" y2="100" stroke="white" stroke-width="2.5"/>
@@ -927,7 +924,6 @@ html,body{width:100%;height:100%;font-family:'Barlow',sans-serif;background:var(
           <line x1="100" y1="100" x2="100" y2="182" stroke="white" stroke-width="2.5"/>
           <line x1="100" y1="100" x2="152.4" y2="165.4" stroke="white" stroke-width="2.5"/>
           <line x1="100" y1="100" x2="182" y2="100" stroke="white" stroke-width="2.5"/>
-          <!-- Números en cada segmento -->
           <text x="148" y="68" fill="white" font-family="'Barlow Condensed',sans-serif" font-size="18" font-weight="800" text-anchor="middle">1</text>
           <text x="166" y="132" fill="white" font-family="'Barlow Condensed',sans-serif" font-size="18" font-weight="800" text-anchor="middle">2</text>
           <text x="128" y="170" fill="white" font-family="'Barlow Condensed',sans-serif" font-size="18" font-weight="800" text-anchor="middle">3</text>
@@ -935,68 +931,31 @@ html,body{width:100%;height:100%;font-family:'Barlow',sans-serif;background:var(
           <text x="34" y="132" fill="white" font-family="'Barlow Condensed',sans-serif" font-size="18" font-weight="800" text-anchor="middle">5</text>
           <text x="52" y="68" fill="white" font-family="'Barlow Condensed',sans-serif" font-size="18" font-weight="800" text-anchor="middle">6</text>
           <text x="100" y="36" fill="white" font-family="'Barlow Condensed',sans-serif" font-size="18" font-weight="800" text-anchor="middle">7</text>
-          <!-- Sombra círculo interior -->
           <circle cx="100" cy="100" r="47" fill="rgba(0,0,0,0.15)"/>
-          <!-- Círculo interior blanco -->
           <circle cx="100" cy="100" r="46" fill="white"/>
-          <!-- Logo dentro del círculo -->
           <image href="images/logo1.png" x="56" y="60" width="88" height="80" clip-path="url(#logoClip)" preserveAspectRatio="xMidYMid meet"/>
         </svg>
       </div>
 
-      <!-- E6 izquierda -->
-      <div class="des-card mid-left">
-        <div class="des-bg" style="background-image:url('images/6.png')"></div>
+      <!-- E1: col der fila 1 -->
+      <div class="des-card des-c1">
+        <div class="des-bg" style="background-image:url('images/1.png')"></div>
         <div class="des-ol"></div>
-        <div class="des-cc">
-          <div class="des-badge">6</div>
-          <div class="des-title2">Grupos de innovación educativa</div>
-          <div class="des-text2">Equipos de trabajo interdisciplinar centrados en diseño de materiales con simulación de alta fidelidad y gamificación.</div>
-        </div>
+        <div class="des-cc"><div class="des-badge">1</div><div class="des-title2">Comunidades de Aprendizaje Profesional (CAP)</div><div class="des-text2">Reuniones quincenales del claustro para compartir materiales, casos clínicos reales y metodologías innovadoras.</div></div>
       </div>
 
-      <!-- E2 derecha -->
-      <div class="des-card mid-right">
+      <!-- E2: col der fila 2 -->
+      <div class="des-card des-c2">
         <div class="des-bg" style="background-image:url('images/2.png')"></div>
         <div class="des-ol"></div>
-        <div class="des-cc">
-          <div class="des-badge">2</div>
-          <div class="des-title2">Formación continua con EPES-061</div>
-          <div class="des-text2">Acuerdos de colaboración para que el profesorado actualice competencias clínicas participando en simulacros y jornadas asistenciales reales.</div>
-        </div>
+        <div class="des-cc"><div class="des-badge">2</div><div class="des-title2">Formación continua con EPES-061</div><div class="des-text2">Acuerdos de colaboración para que el profesorado actualice competencias clínicas participando en simulacros y jornadas asistenciales reales.</div></div>
       </div>
 
-      <!-- E5 abajo izquierda -->
-      <div class="des-card bot-left">
-        <div class="des-bg" style="background-image:url('images/5.png')"></div>
-        <div class="des-ol"></div>
-        <div class="des-cc">
-          <div class="des-badge">5</div>
-          <div class="des-title2">Plan de acogida y mentorización</div>
-          <div class="des-text2">Protocolo de acompañamiento para profesorado nuevo o interino, con asignación de un mentor del claustro definitivo.</div>
-        </div>
-      </div>
-
-      <!-- E4 abajo centro -->
-      <div class="des-card bot-center">
-        <div class="des-bg" style="background-image:url('images/4.png');background-position:center 30%;"></div>
-        <div class="des-ol"></div>
-        <div class="des-cc">
-          <div class="des-badge">4</div>
-          <div class="des-title2">Erasmus+ VET</div>
-          <div class="des-text2">Movilidad formativa en centros europeos de FP sanitaria.</div>
-        </div>
-      </div>
-
-      <!-- E3 abajo derecha -->
-      <div class="des-card bot-right2">
+      <!-- E3: col der fila 3 -->
+      <div class="des-card des-c3">
         <div class="des-bg" style="background-image:url('images/3.png')"></div>
         <div class="des-ol"></div>
-        <div class="des-cc">
-          <div class="des-badge">3</div>
-          <div class="des-title2">Proyectos eTwinning</div>
-          <div class="des-text2">Participación en red europea de centros educativos para proyectos colaborativos en entornos digitales.</div>
-        </div>
+        <div class="des-cc"><div class="des-badge">3</div><div class="des-title2">Proyectos eTwinning</div><div class="des-text2">Participación en red europea de centros educativos para proyectos colaborativos en entornos digitales.</div></div>
       </div>
 
     </div>
